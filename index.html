@@ -1,3418 +1,790 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="/assets/favicon.ico" />
-<!-- or PNG -->
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
-<meta charset="UTF-8">
-  <meta content="index,follow">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extra Learn Search</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6081855871603005"
-     crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Zed Tuition | Home - Smart Learning for Zambia</title>
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    .main-tabs {
-  display: flex;
-  justify-content: space-around;
-  background: #111; /* dark background */
-  border-top: 1px solid #333;
-  padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.main-tabs button {
-  display: flex;
-  align-items: center;
-  gap: 6px; /* space between icon and text */
-  background: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 14px;
-  color: white; /* white text */
-  transition: color 0.3s;
-}
+    body {
+      background: #0a0c12;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Roboto', sans-serif;
+      color: #edeef5;
+      overflow-x: hidden;
+    }
 
-.main-tabs button.active,
-.main-tabs button:hover {
-  color: #6200ea; /* purple on hover/active */
-}
+    /* purple-black gradient theme */
+    :root {
+      --primary: #7c5cff;
+      --primary-dark: #5a3fcc;
+      --primary-glow: #9b7cff;
+      --dark-bg: #07090f;
+      --card-bg: #12141e;
+      --border-subtle: #252a3a;
+      --text-muted: #a7b0ca;
+    }
 
-.main-tabs svg {
-  vertical-align: middle;
-  fill: currentColor; /* so SVG color follows text color */
-}
-</style>
-<style>
-  body {
-    margin: 0;
-    font-family: "Poppins", sans-serif;
-    background-color: #000;
-    color: white;
-    overflow-x: hidden;
-  }
+    /* ===== SIDEBAR (HAMBURGER MENU) ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background: rgba(8, 10, 18, 0.98);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border-subtle);
+      z-index: 1000;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      box-shadow: 4px 0 25px rgba(0, 0, 0, 0.6);
+    }
 
-  /* Main container */
-  .tab-content {
-    display: none;
-    padding: 20px;
-    animation: fade 0.5s ease-in-out;
-  }
+    .sidebar.open {
+      left: 0;
+    }
 
-  @keyframes fade {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    .sidebar .logo-side {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff, var(--primary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      border-bottom: 1px solid #2d3246;
+      padding-bottom: 1rem;
+    }
 
-  /* Main Tabs (Bottom Navigation) */
-  .main-tabs {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #111;
-    display: flex;
-    justify-content: space-around;
-    border-top: 2px solid #333;
-    z-index: 10;
-  }
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
 
-  .main-tabs button {
-    flex: 1;
-    background: none;
-    border: none;
-    padding: 14px 0;
-    color: #aaa;
-    font-size: 15px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
+    .sidebar nav a {
+      color: #e0e4f0;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+    }
 
-  .main-tabs button.active {
-    color: #00bfff;
-    border-top: 3px solid #00bfff;
-  }
+    .sidebar nav a i {
+      width: 28px;
+      font-size: 1.2rem;
+    }
 
-  /* Subtab container */
-  .subtabs {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    margin-bottom: 20px;
-    scrollbar-width: none;
-    position: sticky;
-  }
-  .subtabs::-webkit-scrollbar {
-    display: none;
-  }
+    .sidebar nav a:hover {
+      color: var(--primary);
+      transform: translateX(6px);
+    }
 
-  .subtabs button {
-    background: #111;
-    border: 1px solid white;
-    color: #aaa;
-    padding: 10px 18px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    position: sticky;
-  }
+    .sidebar .close-sidebar {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      text-align: right;
+      margin-bottom: 10px;
+    }
 
-  .subtabs button.active {
-    background: #00bfff;
-    color: #fff;
-    border-color: #00bfff;
-    border: 2px solid white;
-  }
+    .overlay-blur {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
 
-  /* Subcontent */
-  .subcontent {
-    display: none;
-    animation: fade 0.4s ease-in-out;
-  }
-  .subcontent.active {
-    display: block;
-  }
+    .overlay-blur.active {
+      display: block;
+    }
 
-  h2 {
-    color: #00bfff;
-    margin-bottom: 10px;
-  }
+    /* main container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
 
-  /* Simple card design */
-  .card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 15px;
-    margin: 10px 0;
-    box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
-  }
+    /* header with hamburger */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
 
-  .card:hover {
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
-  }
-  /* Top Bar */
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
-  border-bottom: 2px solid #222;
-  z-index: 15;
-}
+    .hamburger {
+      background: #1e2130;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
 
-/* Hamburger */
-.hamburger {
-  font-size: 26px;
-  cursor: pointer;
-  color: #00bfff;
-}
+    .hamburger:hover {
+      background: var(--primary);
+      box-shadow: 0 0 12px rgba(124, 92, 255, 0.5);
+    }
 
-/* Logo Section */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
-.logo span {
-  font-size: 20px;
-  color: #00bfff;
-  font-weight: bold;
-}
+    .logo-area h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #ffffff, var(--primary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-/* Profile Circle */
-.profile img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid #00bfff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.profile img:hover {
-  transform: scale(1.1);
-}
+    /* HERO SECTION - welcoming */
+    .hero-welcome {
+      background: radial-gradient(circle at 20% 30%, rgba(124, 92, 255, 0.2), transparent 70%);
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      text-align: center;
+    }
 
-/* Sidebar */
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 20;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  overflow-x: hidden;
-  transition: 0.4s;
-  padding-top: 60px;
-  border-right: 2px solid #00bfff;
-}
+    .hero-welcome h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
 
-.sidebar a {
-  padding: 12px 20px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #ccc;
-  display: block;
-  transition: 0.3s;
-}
+    .hero-welcome p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin: 0 auto 1rem;
+    }
 
-.sidebar a:hover {
-  background-color: #111;
-  color: #00bfff;
-}
+    .hero-badge {
+      display: inline-flex;
+      gap: 1.5rem;
+      background: rgba(20, 22, 36, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
 
-.sidebar .closebtn {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 30px;
-  background: none;
-  border: none;
-  color: #00bfff;
-  cursor: pointer;
-}
+    .hero-badge i {
+      color: var(--primary);
+      margin-right: 6px;
+    }
 
+    /* info sections grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin: 2rem 0;
+    }
 
-/* Adjust body top spacing because of top bar */
-body {
-  padding-top: 65px;
-}
-  
-.video-section {
-  position: relative;
-  padding: 15px;
-  background: #111;
-  color: white;
-  border-radius: 12px;
-  gap: 15px;
-  box-shadow: 0 0 10px rgba(20, 30, 255, 0.2);
-  backdrop-filter:blur(10px);
-}
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border-subtle);
+      transition: 0.25s;
+    }
 
-.video-row {
-  display: flex;
-  overflow-x: auto;
-  gap: 15px;
-  scroll-behavior: smooth;
-  padding-bottom: 10px;
-}
+    .info-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-5px);
+    }
 
-.video-row::-webkit-scrollbar {
-  height: 8px;
-}
-.video-row::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 10px;
-}
+    .info-card i {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
 
-.video-card {
-  flex: 0 0 auto;
-  width: 220px;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.3s ease;
-  padding: 15px;
-  background-color: black;
-  gap: 15px;
-}
-.video-card:hover {
-  transform: scale(1.07);
-}
-.video-card img {
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  display: block;
-}
-.video-card p {
-  margin: 6px;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
+    .info-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+    }
 
-/* --- Popup Overlay --- */
-.popup {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  flex-direction: column;
-  backdrop-filter:blur(10px);
-}
-.popup iframe {
-  width: 80%;
-  height: 70%;
-  border: none;
-  border-radius: 10px;
-  display: none;
-}
-.popup .closeBtn {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  color: #fff;
-  font-size: 30px;
-  cursor: pointer;
-}
+    .info-card p {
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
 
-/* --- Loading Spinner --- */
-.spinner {
-  border: 6px solid rgba(255, 255, 255, 0.2);
-  border-top: 6px solid lightblue;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-  h3 {
-    color:yellow;
-  }
-  h4 {
-    color: purple;
-    text-shadow:yellow;
-  }
-</style>
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .tools-list span {
+      background: #1f2233;
+      padding: 5px 12px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+    }
+
+    /* search section – enhanced */
+    .search-section {
+      background: var(--card-bg);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      border: 1px solid var(--border-subtle);
+      margin: 2rem 0 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 3;
+      display: flex;
+      background: #1a1d2b;
+      border-radius: 60px;
+      padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+      align-items: center;
+      border: 1px solid #2d3246;
+      transition: all 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.4);
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      padding: 12px 8px;
+      width: 100%;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box button {
+      background: var(--primary);
+      border: none;
+      padding: 8px 24px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .search-box button:hover {
+      background: var(--primary-dark);
+      transform: scale(0.97);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group select, .filter-group button {
+      background: #1a1d2b;
+      border: 1px solid #2d3246;
+      padding: 8px 16px;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .result-stats {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* resource grid */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .resource-card {
+      background: var(--card-bg);
+      border-radius: 1.2rem;
+      border: 1px solid #202433;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+      box-shadow: 0 18px 30px -12px rgba(124, 92, 255, 0.4);
+    }
+
+    .thumbnail-area {
+      background: #0b0d14;
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumbnail-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-type {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .badge-doc { background: #1f3b4c; color: #7cd4ff; }
+    .badge-video { background: #3c2b4a; color: #d9b4ff; }
+    .badge-external { background: #4a3b2c; color: #ffd966; }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card-content h4 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: #949bbf;
+    }
+
+    .level-tag {
+      background: #252a3a;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      grid-column: 1 / -1;
+      color: var(--text-muted);
+    }
+
+    .quick-links {
+      margin: 3rem 0 1rem;
+      text-align: center;
+    }
+
+    .quick-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .quick-card {
+      background: linear-gradient(145deg, #12141e, #0b0d14);
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      min-width: 160px;
+      text-align: center;
+      border: 1px solid #282e42;
+      text-decoration: none;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .quick-card i {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--primary);
+    }
+
+    .quick-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid #202433;
+      color: #6f7893;
+    }
+
+    @media (max-width: 700px) {
+      .container { padding: 1rem; }
+      .search-wrapper { flex-direction: column; }
+      .hero-welcome h2 { font-size: 1.6rem; }
+    }
+  </style>
 </head>
 <body>
-  <!-- TOP BAR -->
-<div class="topbar">
-  <div class="hamburger" onclick="openSidebar()">&#9776;</div>
-  <div class="logo">
-    <img src="https://drive.google.com/thumbnail?id=1-qVeVF0Gpc9lizlSVEX1dLnckIYkUy8t" alt="Logo"> <!-- Replace with your logo path -->
-    <span>Extra Learn Search</span>
-  </div>
-  <div class="profile" onclick="openTab('me', document.querySelector('.main-tabs button:nth-child(4)'))">
-    <img src="https://i.pravatar.cc/300" alt="Profile"> <!-- Replace with user profile or default -->
-  </div>
+<div class="overlay-blur" id="overlayBlur"></div>
+
+<!-- Sidebar hamburger menu -->
+<div class="sidebar" id="sidebar">
+  <button class="close-sidebar" id="closeSidebarBtn">✕</button>
+  <div class="logo-side"><i class="fas fa-graduation-cap"></i> Zed Tuition</div>
+  <nav>
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="grade10-12.html"><i class="fas fa-book-open"></i> Grade 10-12</a>
+    <a href="form1-2.html"><i class="fas fa-book"></i> Form 1-2</a>
+    <a href="primary.html"><i class="fas fa-chalkboard-user"></i> Primary 5-7</a>
+    <a href="#resources"><i class="fas fa-search"></i> Search Resources</a>
+  </nav>
+  <div style="margin-top: auto; font-size:0.8rem;"><i class="fas fa-map-marker-alt"></i> 🇿🇲 For Zambian students</div>
 </div>
 
-<!-- SIDEBAR -->
-<div id="sidebar" class="sidebar">
-  <button class="closebtn" onclick="closeSidebar()">×</button>
-  <a href="#" onclick="openTab('home', document.querySelector('.main-tabs button:nth-child(1)')); closeSidebar();">🏠 Home</a>
-  <a href="#" onclick="showAbout();">ℹ️ About</a>
-  <a href="#" onclick="openTab('me', document.querySelector('.main-tabs button:nth-child(4)')); closeSidebar();">👤 Me</a>
-  <a href="#" onclick="shareSite();">🔗 Share</a>
-  <h2>Built By © Amimo AC</h2>
-</div>
-
-<!-- HOME -->
-<div id="home" class="tab-content" style="display:block;">
-  <div class="subtabs" id="homeTabs">
-    <button class="active" onclick="showSubtab('foryou')">For You</button>
-    <button onclick="showSubtab('tertiary')">Tertiary</button>
-    <button onclick="showSubtab('grade10')">Grade 10-12</button>
-    <button onclick="showSubtab('form1')">Form 1-4</button>
-    <button onclick="showSubtab('grade5')">Grade 5-7</button>
-    <button onclick="showSubtab('kids')">Kids</button>
-  </div>
-
-  <div id="foryou" class="subcontent active">
-    <h2>For You</h2>
-    <div class="card"> Recommended educational videos & notes curated for you.</div>
-
-     
-
-
-
-<div class="video-section">
-  <h2>🎥 Trending Videos</h2>
-  <div class="video-row" id="videoRow"></div>
-</div>
-
-
-<script>
-// 🎞️ Video Data (6 videos)
-const videos = [
-  { title: "Nature Vibes", thumb: "https://img.youtube.com/vi/aCkc0_ia0F4/hqdefault.jpg", link: "https://www.youtube.com/embed/aCkc0_ia0F4" },
-  { title: "Relaxing Waterfall", thumb: "https://img.youtube.com/vi/sOp6tivXZ4g/hqdefault.jpg", link: "https://www.youtube.com/embed/sOp6tivXZ4g" },
-  { title: "Travel Adventure", thumb: "https://i.ytimg.com/vi/ScMzIvxBSi4/hqdefault.jpg", link: "https://www.youtube.com/embed/ScMzIvxBSi4" },
-  { title: "City Timelapse", thumb: "https://i.ytimg.com/vi/1La4QzGeaaQ/hqdefault.jpg", link: "https://www.youtube.com/embed/1La4QzGeaaQ" },
-  { title: "Mountain Sunrise", thumb: "https://i.ytimg.com/vi/2Vv-BfVoq4g/hqdefault.jpg", link: "https://www.youtube.com/embed/2Vv-BfVoq4g" },
-  { title: "Form 1 Civic", thumb: "https://img.youtube.com/vi/5BW0eqVFtYo/hqdefault.jpg", link: "https://www.youtube.com/embed/5BW0eqVFtYo" }
-];
-
-// 🧠 Create video cards dynamically
-const row = document.getElementById('videoRow');
-videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick = () => openPopup(v.link);
-  row.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-
-
-// ➡️ Smooth fast auto-scroll
-let scrollSpeed = 2; // pixels per frame (increase for faster)
-let userScrolling = false;
-
-// Detect user scroll
-row.addEventListener('wheel', () => userScrolling = true);
-row.addEventListener('touchstart', () => userScrolling = true);
-
-function autoScroll() {
-  if (!userScrolling) {
-    row.scrollLeft += scrollSpeed;
-    // Loop scroll
-    if (row.scrollLeft >= row.scrollWidth - row.clientWidth) {
-      row.scrollLeft = 0;
-    }
-  } else {
-    userScrolling = false; // reset after manual scroll
-  }
-  requestAnimationFrame(autoScroll);
-}
-
-// Start scrolling after 3s
-setTimeout(() => requestAnimationFrame(autoScroll), 3000);
-</script>
-
-   <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-   </div>
- 
-  <!-- 🎬 Coming Soon Section -->
-<div class="video-section" id="comingSoonSection">
-  <h2>🎥 Coming Soon</h2>
-  <div class="video-row" id="comingSoonRow"></div>
-</div>
-
-<!-- 🎬 New This Week Section -->
-<div class="video-section" id="newThisWeekSection">
-  <h2>🔥 New This Week</h2>
-  <div class="video-row" id="newThisWeekRow"></div>
-</div>
-
-<!-- 🎬 Discover Section -->
-<div class="video-section" id="discoverSection">
-  <h2>🔍 Discover</h2>
-  <div class="video-row" id="discoverRow"></div>
-</div>
-
-
-
-
-
-<script>
-
-// 🎞️ Video Data for each section
-const videoSections = {
-  comingSoon: [
-    {
-      title: "Future Tech Preview",
-      thumb: "https://img.youtube.com/vi/aCkc0_ia0F4/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/aCkc0_ia0F4"
-    },
-    {
-      title: "Form 1",
-      thumb: "https://img.youtube.com/vi/bN‑Pp9ZCCgE/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/bN‑Pp9ZCCgE"
-    },
-    {
-      title: "Next Big Thing",
-      thumb: "https://i.ytimg.com/vi/ScMzIvxBSi4/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/ScMzIvxBSi4"
-    }
-  ],
-  newThisWeek: [
-    {
-      title: "Latest Travel Vlog",
-      thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/dQw4w9WgXcQ"
-    },
-    {
-      title: "Form 1 : Introduction to chemistry",
-      thumb: "https://img.youtube.com/vi/0EIgwEKlFv4/hqdefault.jpg",
-      link: "https://www.youtube.com/vi/0EIgwEKlFv4"
-    },
-    {
-      title: "New Game Review",
-      thumb: "https://img.youtube.com/vi/V-_O7nl0Ii0/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/V-_O7nl0Ii0"
-    }
-  ],
-  discover: [
-    {
-      title: "Hidden Travel Gems",
-      thumb: "https://img.youtube.com/vi/tgbNymZ7vqY/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/tgbNymZ7vqY"
-    },
-    {
-      title: "Form 1",
-      thumb: "https://img.youtube.com/rP‑eUSA8gYs",
-      link: "https://www.youtube.com/embed/rP‑eUSA8gYs"
-    },
-    {
-      title: "Form 1",
-      thumb: "https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg",
-      link: "https://www.youtube.com/embed/ysz5S6PUM-U"
-    }
-  ]
-};
-
-// 🧠 Function to create video cards dynamically
-function createVideoCards(sectionId, videos) {
-  const row = document.getElementById(sectionId);
-  videos.forEach(v => {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.innerHTML = `
-      <img src="${v.thumb}" alt="${v.title}">
-      <p>${v.title}</p>
-    `;
-    card.onclick = () => openPopup(v.link);
-    row.appendChild(card);
-    card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-  });
-}
-
-// 🪄 Generate sections
-createVideoCards('comingSoonRow', videoSections.comingSoon);
-createVideoCards('newThisWeekRow', videoSections.newThisWeek);
-createVideoCards('discoverRow', videoSections.discover);
-
-// 🎥 Popup controls + Spinner
-
-    </script>
-
-
-    
-  </div>
-  <div id="tertiary" class="subcontent">
-    <h2>Tertiary</h2>
-    <div class="card">University & college materials available here.</div>
-
-
-      <!-- ====== TERTIARY: Trending Videos ====== -->
-<div class="video-section">
-  <h2>🎥 Trending Videos</h2>
-  <div class="video-row" id="tertiaryTrendingRow" aria-label="Trending videos"></div>
-</div>
-
-<!-- ====== TERTIARY: Electrical Engineering ====== -->
-<div class="video-section">
-  <h2>🧬 Health and Medical Sciences</h2>
-  <div class="video-row" id="tertiaryElectricalRow" aria-label="Electrical engineering videos"></div>
-</div>
-
-
-<script>
-/* ====== Data: videos for each tertiary section ====== */
-const tertiaryTrendingVideos = [
-  { title: "Space Journey", thumb: "https://img.youtube.com/vi/UK9jYd_vI20/hqdefault.jpg", link: "https://www.youtube.com/embed/RLjdR_AF7vU" },
-  { title: "Planet Earth",  thumb: "https://img.youtube.com/vi/dS4VU8KchWQ/hqdefault.jpg", link: "https://www.youtube.com/embed/dS4VU8KchWQ" },
-  { title: "Nature Vibes",  thumb: "https://img.youtube.com/vi/aCkc0_ia0F4/hqdefault.jpg", link: "https://www.youtube.com/embed/aCkc0_ia0F4" }
-];
-
-const tertiaryElectricalVideos = [
-  { title: "How Electric Circuits Work", thumb: "https://img.youtube.com/vi/_asax7PmhcE/hqdefault.jpg", link: "https://www.youtube.com/embed/_asax7PmhcE" },
-  { title: "Network Theory", thumb: "https://img.youtube.com/vi/NEhH6C7Fzw4/hqdefault.jpg", link: "https://www.youtube.com/embed/NEhH6C7Fzw4" },
-  { title: "Circuit Examples", thumb: "https://i.ytimg.com/vi/OZKMr5Y-bdE/hqdefault.jpg", link: "https://www.youtube.com/embed/OZKMr5Y-bdE" }
-];
-
-/* ====== build cards into rows ====== */
-function makeCard(v) {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-}
-
-function populateRows() {
-  const trendingRow = document.getElementById('tertiaryTrendingRow');
-  const electricalRow = document.getElementById('tertiaryElectricalRow');
-
-  tertiaryTrendingVideos.forEach(v => trendingRow.appendChild(makeCard(v)));
-  tertiaryElectricalVideos.forEach(v => electricalRow.appendChild(makeCard(v)));
-}
-
-/* ====== Global popup logic (one centralized popup) ====== */
-
-
-/* Initialize */
-populateRows();
-</script>
-
-
-
-    
-
-
-    
-    
-    
-   <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-   </div>
-    <div class="video-section">
-  <h2>⚖️ Law & Social Sciences</h2>
-  <div class="video-row" id="lawandsocialsciences"></div>
-</div>
-
-<script>
-const lawSocialVideos = [
-  {
-    title: "THE ZAMBIAN CONSTITUTION (Bill of Rights, Civil Society & Media)", 
-    thumb: "https://img.youtube.com/vi/1bCjuwAQw_E/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/1bCjuwAQw_E"
-  },
-  {
-    title: "The Process of Law Making in Zambia", 
-    thumb: "https://img.youtube.com/vi/MkLvxj5jKF8/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/MkLvxj5jKF8"
-  },
-  {
-    title: "The Place of Witness in the Criminal Justice System in Zambia", 
-    thumb: "https://img.youtube.com/vi/Y7_9X5dWSNk/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/Y7_9X5dWSNk"
-  }
-];
-
-const rowLaw = document.getElementById('lawandsocialsciences');
-lawSocialVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowLaw.appendChild(card);
-});
-</script>
-
-   <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-   </div> 
-    <div class="video-section">
-  <h2>💼 Business & Financial Studies</h2>
-  <div class="video-row" id="businessfinancial"></div>
-</div>
-
-<script>
-const businessFinVideos = [
-  {
-    title: "Top 10 Profitable Businesses To Start In Zambia Now", 
-    thumb: "https://img.youtube.com/vi/kF-V4E2exwE/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/kF-V4E2exwE"
-  },
-  {
-    title: "Cost Accounting – Topic: Costing Part 2 (Zambia)”, 
-    thumb: "https://img.youtube.com/vi/VideoIDCostAcctZambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDCostAcctZambia"
-  },
-  {
-    title: "Strategic Business Analysis (CA2 6)", 
-    thumb: "https://img.youtube.com/vi/2arC6-u40bU/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/2arC6-u40bU"
-  }
-];
-
-const rowBiz = document.getElementById('businessfinancial');
-businessFinVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowBiz.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
+<div class="container">
+  <div class="header-bar">
+    <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+    <div class="logo-area">
+      <h1><i class="fas fa-brain"></i> Zed Tuition</h1>
     </div>
-    <div class="video-section">
-  <h2>🔬 Pure & Applied Science</h2>
-  <div class="video-row" id="pureappliedscience"></div>
-</div>
-
-<script>
-const pureAppliedVideos = [
-  {
-    title: "The Zambian Legal System (Science link placeholder)", 
-    thumb: "https://img.youtube.com/vi/V5wjrlZir8/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/V5wjrlZir8"
-  },
-  {
-    title: "Zambia Academy of Sciences – overview of science and technology", 
-    thumb: "https://img.youtube.com/vi/VideoIDZamSci1/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDZamSci1"
-  },
-  {
-    title: "Exploring Science in Zambia – applied science case study", 
-    thumb: "https://img.youtube.com/vi/VideoIDAppliedSciZambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDAppliedSciZambia"
-  }
-];
-
-const rowSci = document.getElementById('pureappliedscience');
-pureAppliedVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowSci.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
+    <div></div>
   </div>
 
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-    </div>
-    <div class="video-section">
-  <h2>📘 Education & Training</h2>
-  <div class="video-row" id="educationtraining"></div>
-</div>
-
-<script>
-const eduTrainVideos = [
-  {
-    title: "Facing the Facts: Quality and relevance in African education (Zambia context)", 
-    thumb: "https://img.youtube.com/vi/LinkNotYoutubeButFromWB/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/LinkNotYoutubeButFromWB"
-  },
-  {
-    title: "Teacher deployment and presence in Zambia's schools", 
-    thumb: "https://img.youtube.com/vi/VideoIDEduTrainZambia1/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDEduTrainZambia1"
-  },
-  {
-    title: "Education policy and teacher management in Zambia – overview", 
-    thumb: "https://img.youtube.com/vi/VideoIDEduTrainZambia2/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDEduTrainZambia2"
-  }
-];
-
-const rowEdu = document.getElementById('educationtraining');
-eduTrainVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowEdu.appendChild(card);
-});
-</script>
-  <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-  </div>
-    <div class="video-section">
-  <h2>🎨 Creative Media & Communication</h2>
-  <div class="video-row" id="creativemedia"></div>
-</div>
-
-<script>
-const creativeMediaVideos = [
-  {
-    title: "Zambia’s New Cyber Laws – Security or Censorship?", 
-    thumb: "https://img.youtube.com/vi/Vtq_aXu8yH0/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/Vtq_aXu8yH0"
-  },
-  {
-    title: "Media in Zambia – Civil Society and Media Governance", 
-    thumb: "https://img.youtube.com/vi/1bCjuwAQw_E/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/1bCjuwAQw_E"
-  },
-  {
-    title: "Zambian Law Development Commission – video intro to media law", 
-    thumb: "https://img.youtube.com/vi/VideoIDMediaLawZambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDMediaLawZambia"
-  }
-];
-
-const rowCM = document.getElementById('creativemedia');
-creativeMediaVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowCM.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-    </div>
-    
-  
- 
-  
-
-  
-
-  
-  
-  
-    
-    
-    
-  
-  
-
-  
-  </div>
-  <div id="grade10" class="subcontent">
-    <div class="card">Explore content for grade 10-12 before curriculum update
-    </div>
-      <div class="video-section">
-  <h2>🎥 Trending Videos</h2>
-  <div class="video-row" id="videoRow2"></div>
-</div>
-
-
-
-<script>
-const videos2=[
-  {title:"English 2025 GCE Vocabulary",thumb:"https://img.youtube.com/vi/B62xr0ypVpQ/hqdefault.jpg",link:"https://www.youtube.com/embed/B62xr0ypVpQ"},
-  {title:"Gadget Talk",thumb:"https://i.ytimg.com/vi/sBws8MSXN7A/hqdefault.jpg",link:"https://www.youtube.com/embed/sBws8MSXN7A"}
-];
-const row2=document.getElementById('videoRow2');
-videos2.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopup2(v.link);
-  row2.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-</script>
-  
-  
-
-<script>
-const docs10= [
-  {title:"School Report",thumb:"https://cdn-icons-png.flaticon.com/512/4727/4727496.png",link:"https://example.com/report.pdf"},
-  {title:"Class Notes",thumb:"https://cdn-icons-png.flaticon.com/512/281/281757.png",link:"https://example.com/notes.pdf"}
-];
-const row10=document.getElementById('docRow10');
-docs10.forEach(d=>{
-  const card=document.createElement('div');
-  card.className='doc-card';
-  card.innerHTML=`<img src="${d.thumb}"><p>${d.title}</p>`;
-  card.onclick=()=>openDoc10(d.link);
-  row10.appendChild(card);
-});
-function openDoc10(link){
-  const popup=document.getElementById('docPopup10');
-  const iframe=document.getElementById('docViewer10');
-  const spinner=document.getElementById('spinnerDoc10');
-  iframe.style.display="none";spinner.style.display="block";
-  popup.style.display="flex";
-  iframe.src="https://docs.google.com/gview?embedded=true&url="+encodeURIComponent(link);
-  iframe.onload=()=>{spinner.style.display="none";iframe.style.display="block";}
-}
-function closeDoc10(){
-  const popup=document.getElementById('docPopup10');
-  const iframe=document.getElementById('docViewer10');
-  popup.style.display="none";iframe.src="";
-}
-</script>
-  
-  <div class="video-section">
-  <h2>📘 Grade 10 Mathematics</h2>
-  <div class="video-row" id="videoRowMaths"></div>
-</div>
-
-
-<script>
-const videosMaths = [
-  {title:"Sets",thumb:"https://img.youtube.com/vi/z21pTYw4toU/hqdefault.jpg",link:"https://www.youtube.com/embed/z21pTYw4toU"},
-  {title:"Indices",thumb:"https://img.youtube.com/vi/0_FlzTVk6ls/hqdefault.jpg",link:"https://www.youtube.com/embed/0_FlzTVk6ls"},
-  {title:"Introduction To Matrix",thumb:"https://img.youtube.com/vi/wM1YgIg1gKg/hqdefault.jpg",link:"https://www.youtube.com/embed/wM1YgIg1gKg"}
-
-];
-
-const rowMaths = document.getElementById('videoRowMaths');
-videosMaths.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopupMaths(v.link);
-  rowMaths.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-
-
-</script>
-  
-  <div class="video-section">
-  <h2>📘 Grade 11 Mathematics</h2>
-  <div class="video-row" id="grade11maths"></div>
-</div>
-
-
-
-<script>
-const grade11MathVideos = [
-  {title:"Approximately",thumb:"https://img.youtube.com/vi/UBouiBaoW6s/hqdefault.jpg",link:"https://www.youtube.com/embed/UBouiBaoW6s"},
-  {title:"Sequence and Series",thumb:"https://img.youtube.com/vi/Sm88u87DBXM/hqdefault.jpg",link:"https://www.youtube.com/embed/Sm88u87DBXM"},
-  {title:"Coordinate Geometry",thumb:"https://img.youtube.com/vi/1EnUS_cWOjA/hqdefault.jpg",link:"https://www.youtube.com/embed/1EnUS_cWOjA"}
-];
-
-const rowG11Math = document.getElementById('grade11maths');
-grade11MathVideos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopup_grade11maths(v.link);
-  rowG11Math.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-
-
-</script>
-
-<div class="video-section">
-  <h2>📘 Grade 12 Mathematics</h2>
-  <div class="video-row" id="grade12maths"></div>
-</div>
-
-
-<script>
-const grade12MathVideos = [
-  {title:"Graphs and Functions",thumb:"https://img.youtube.com/vi/TbXMg7j50pI/hqdefault.jpg",link:"https://www.youtube.com/embed/TbXMg7j50pI"},
-  {title:"Linear Programming ",thumb:"https://img.youtube.com/vi/Ao5xtax2RnE/hqdefault.jpg",link:"https://www.youtube.com/embed/Ao5xtax2RnE"},
-  {title:"Travel Graph",thumb:"https://img.youtube.com/vi/IwJldaFIhno/hqdefault.jpg",link:"https://www.youtube.com/embed/IwJldaFIhno"}
-];
-
-const rowG12Math = document.getElementById('grade12maths');
-grade12MathVideos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopup_grade12maths(v.link);
-  rowG12Math.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-
-
-</script>
-
-
-      <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!-- Card 1 (Free) -->
-  <div style="border-radius:8px; border:2px solid #000; flex-shrink:0; height:200px; width:140px; overflow:hidden; text-align:center;">
-    <a href="https://drive.google.com/file/d/1YX_DNXRSAuqqhlc49EYFzm675BdKZZV1/view?usp=sharing" target="_blank">
-      <img src="https://drive.google.com/thumbnail?id=1YX_DNXRSAuqqhlc49EYFzm675BdKZZV1" style="width:100%; height:80%; object-fit:cover;">
-      <div>
-        <h4 style="color:white; font-size:8px; margin:0;">Maths Study Material</h4>
-        <p style="color:white; font-size:10px; margin:0;">By Nawa S.A <small>12 Oct 2022</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!-- Card 2 (Free) -->
-  <div style="border-radius:8px; border:2px solid #000; flex-shrink:0; height:200px; width:140px; overflow:hidden; text-align:center;">
-    <a href="https://drive.google.com/file/d/1OkniiwTpHhm7LE5b5JjTVAWDM7wPjYyn/view?usp=sharing" target="_blank">
-      <img src="https://drive.google.com/thumbnail?id=1OkniiwTpHhm7LE5b5JjTVAWDM7wPjYyn" style="width:100%; height:150px; object-fit:cover;">
-      <div>
-        <h4 style="color:white; font-size:8px; margin:0;">Maths P1 Mr6points G10-12</h4>
-        <p style="color:white; font-size:10px; margin:5px 0 0;">By Mr 6points <small>2 Jan 2018</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!-- Card 3 (Premium) -->
-  <div class="premium-doc" data-doc-link="https://drive.google.com/file/d/1YJ8G3VmfK160DTLU4SYu3fdw03eUt2hM/view?usp=sharing" 
-       style="border:1px solid #000; width:140px; border-radius:8px; overflow:hidden; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.2); flex-shrink:0;">
-    <a href="#" onclick="return false;">
-      <img src="https://drive.google.com/thumbnail?id=1BfxlzqPy2RcxNoiRYALSrD4Tsx-NNxqQ" style="width:100%; height:150px; object-fit:cover;">
-      <div style="padding:10px;">
-        <h4 style="color:white; font-size:8px; margin:0;">Progress In Maths</h4>
-        <p style="color:white; font-size:10px; margin:5px 0 0;">By Mary Chanda <small>11 Feb 2021</small></p>
-      </div>
-    </a>
-  </div>
-</div>
-
-<!-- LOCK OVERLAY -->
-<div id="premiumLock" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center; height:100%;">
-  <div style="background: rgba(0,0,0,0.5); border-radius:20px; padding:30px; text-align:center; width:90%; max-width:420px; position:relative;">
-    <span class="close-lock" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#ccc;">&times;</span>
-    <h3 style="color:#ffccff;">This content is Sold</h3>
-    <p style="color:#ddd;">However,you can access and download all sold content by upgrading to Premium.</p>
-    <button id="upgradeBtn" style="margin:10px; padding:12px 25px; border-radius:12px; border:none; cursor:pointer; background:linear-gradient(90deg, purple, red, blue, black); color:#fff;">Upgrade To Premium</button>
-    <button id="accessBtn" style="margin:10px; padding:12px 25px; border-radius:12px; border:none; cursor:pointer; background:#555; color:#fff;">Access if Already Upgraded</button>
-  </div>
-</div>
-
-<!-- PREMIUM MODAL -->
-<div id="premiumModal" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index:10000; display:flex; align-items:center; justify-content:center; height:90%; bottom:20px;">
-  <div style="background: rgba(30,30,30,0.95); border-radius:20px; padding:0; width:90%; max-width:450px; position:relative; text-align:center; overflow:hidden;">
-    
-    <!-- Close Button -->
-    <span class="close-modal" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#fff;">&times;</span>
-    
-    <!-- Top Section with Background Image -->
-    <div style="background:url('https://images.unsplash.com/photo-1532619187608-e5375cab36a1?auto=format&fit=crop&w=800&q=80') center/cover; height:90%; width:100% ;border-top-left-radius:20px; border-top-right-radius:20px; display:flex; align-items:center; justify-content:center;">
-      <h3 style="color:white; font-size:22px; text-shadow:1px 1px 5px rgba(0,0,0,0.8);">Upgrade to Premium</h3>
-    </div>
-
-    <!-- Scrollable Comparison Table -->
-    <div style="max-height:180px; overflow:auto; margin:15px; border-radius:10px; background:#111; padding:10px;">
-      <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; color:#ddd; text-align:center; min-width:420px;">
-          <thead>
-            <tr style="background:#222; color:#00bfff;">
-              <th style="padding:8px;">Feature</th>
-              <th style="padding:8px;">Free</th>
-              <th style="padding:8px;">Basic</th>
-              <th style="padding:8px;">Standard</th>
-              <th style="padding:8px;">Pro</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px;">Access to Learning Materials</td>
-              <td>✅</td>
-              <td>✅</td>
-              <td>✅</td>
-              <td>✅</td>
-            </tr>
-            <tr style="background:#1a1a1a;">
-              <td style="padding:8px;">Free Downloadable Resources</td>
-              <td>✅</td>
-              <td>✅<td>
-              <td>✅</td>
-              <td>✅</td>
-            </tr>
-            <tr>
-              <td style="padding:8px;">Live Tutoring Sessions</td>
-              <td>❌</td>
-              <td>✅</td>
-              <td>✅</td>
-              <td>✅</td>
-            </tr>
-            <tr style="background:#1a1a1a;">
-              <td style="padding:8px;">Priority Support</td>
-              <td>❌</td>
-              <td>❌</td>
-              <td>✅</td>
-              <td>✅</td>
-            </tr>
-            <tr>
-              <td style="padding:8px;">Certificates</td>
-              <td>❌</td>
-              <td>❌</td>
-              <td>❌</td>
-              <td>✅</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Form Section -->
-    <form id="premiumForm" style="margin-top:5px; padding-bottom:15px;">
-      <input type="text" id="name" placeholder="Your Name" required style="width:90%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:#2a2a2a; color:#fff;">
-      <input type="email" id="email" placeholder="Your Email" required style="width:90%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:#000; color:#fff;">
-      <input type="tel" id="number" placeholder="Phone Number" required style="width:90%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:#000; color:#fff;">
-      
-      <select id="plan" required style="width:90%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:#000; color:#fff;">
-        <option value="">Select a Plan</option>
-        <option>Basic - K5</option>
-        <option>Standard - K7</option>
-        <option>Pro - K15</option>
-      </select>
-
-      <select id="payment" required style="width:90%; padding:10px; margin:6px 0; border-radius:8px; border:none; background:#000; color:#fff;">
-        <option value="">Select Payment Method</option>
-        <option>Mobile (0767607057)</option>
-        <option>Bank (Card)</option>
-      </select>
-
-      <button type="submit" style="background: linear-gradient(135deg,#007bff,#00bfff); color:#fff; border:none; padding:10px 25px; border-radius:12px; cursor:pointer; margin-top:10px;">Send</button>
-    </form>
-
-    <div id="msg" style="margin-top:10px; color:#00ff88;"></div>
-  </div>
-</div>
-
-<script>
-const premiumDocs = document.querySelectorAll('.premium-doc');
-const lock = document.getElementById('premiumLock');
-const upgradeBtn = document.getElementById('upgradeBtn');
-const accessBtn = document.getElementById('accessBtn');
-const modal = document.getElementById('premiumModal');
-const closeLock = document.querySelector('.close-lock');
-const closeModal = document.querySelector('.close-modal');
-const form = document.getElementById('premiumForm');
-const msg = document.getElementById('msg');
-
-let activePremiumDoc = null;
-
-// Only show lock when premium card is clicked
-premiumDocs.forEach(doc => {
-  doc.addEventListener('click', () => {
-    activePremiumDoc = doc.getAttribute('data-doc-link');
-    lock.style.display = 'flex';
-  });
-});
-
-// Close lock overlay
-closeLock.onclick = () => lock.style.display = 'none';
-
-// Upgrade button opens premium modal
-upgradeBtn.onclick = () => {
-  lock.style.display = 'none';
-  modal.style.display = 'flex';
-};
-
-// Access button opens document
-accessBtn.onclick = () => {
-  lock.style.display = 'none';
-  if(activePremiumDoc) window.open(activePremiumDoc, '_blank');
-};
-
-// Close modal
-closeModal.onclick = () => modal.style.display = 'none';
-window.addEventListener('click', e => { if(e.target === modal) modal.style.display='none'; });
-
-// Handle form submission
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const number = document.getElementById('number').value;
-  const plan = document.getElementById('plan').value;
-
-  const subject = encodeURIComponent("Premium Plan Request");
- const body = encodeURIComponent(
-    `Name: ${name}\nEmail: ${email}\nPhone: ${number}\nSelected Plan: ${plan}\n\nPlease send your payment and wait for verification.`
-  );
-
-  // Open Gmail or default email client
-  window.location.href = `mailto:amimostudio410@gmail.com?subject=${subject}&body=${body}`;
-
-  // Show initial message
-  msg.innerHTML = "📩 Please send your payment and wait for verification...";
-
-  // After 30 seconds, show thank you/verification message
-  setTimeout(() => {
-    msg.innerHTML = "✅ Thank you! Verification may take up to 30 seconds.";
-  }, 30000);
-
-  // Optional: clear form inputs
-  form.reset();
-});
-  </script>
-  <script>
-// Wait until page is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  const lock = document.getElementById('premiumLock');
-  const modal = document.getElementById('premiumModal');
-  const closeLock = document.querySelector('.close-lock');
-  const upgradeBtn = document.getElementById('upgradeBtn');
-  const accessBtn = document.getElementById('accessBtn');
-  const premiumDocs = document.querySelectorAll('.premium-doc');
-  const closeModal = document.querySelector('.close');
-  const form = document.getElementById('premiumForm');
-  const msg = document.getElementById('msg');
-
-  // Initially hide both
-  if (lock) lock.style.display = 'none';
-  if (modal) modal.style.display = 'none';
-
-  // When a premium document is clicked → show lock popup
-  premiumDocs.forEach(function(doc) {
-    doc.addEventListener('click', function() {
-      const link = doc.getAttribute('data-doc-link');
-      window.activePremiumDoc = link;
-      if (lock) lock.style.display = 'flex';
-    });
-  });
-
-  // Close lock popup
-  if (closeLock) {
-    closeLock.onclick = function() {
-      lock.style.display = 'none';
-    };
-  }
-
-  // Upgrade button opens the modal
-  if (upgradeBtn) {
-    upgradeBtn.onclick = function() {
-      lock.style.display = 'none';
-      modal.style.display = 'block';
-    };
-  }
-
-  // Close modal (X)
-  if (closeModal) {
-    closeModal.onclick = function() {
-      modal.style.display = 'none';
-    };
-  }
-
-  // Close modal when clicking outside
-  window.onclick = function(e) {
-    if (e.target === modal) modal.style.display = 'none';
-    if (e.target === lock) lock.style.display = 'none';
-  };
-
-  // Handle form submission (open Gmail)
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const number = document.getElementById('number').value;
-      const plan = document.getElementById('plan').value;
-
-      const subject = encodeURIComponent("Premium Plan Request");
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\nPhone: ${number}\nSelected Plan: ${plan}\n\nPlease send your payment and wait for verification.`
-      );
-
-      // Open Gmail
-      window.location.href = `mailto:amimostudio410@gmail.com?subject=${subject}&body=${body}`;
-
-      // Message feedback
-      msg.innerHTML = "📩 Please send your payment and wait for verification...";
-      setTimeout(() => {
-        msg.innerHTML = "✅ Thank you! We’re verifying your info...";
-      }, 30000);
-
-      form.reset();
-    });
-  }
-
-  // Access button (opens doc if already upgraded)
-  if (accessBtn) {
-    accessBtn.onclick = function() {
-      lock.style.display = 'none';
-      if (window.activePremiumDoc)
-        window.open(window.activePremiumDoc, '_blank');
-    };
-  }
-});
-  </script>
-  
-    <div class="video-section">
-  <h2>🧬 Grade 10 Biology</h2>
-  <div class="video-row" id="videoRowBio"></div>
-</div>
-
-
-
-<script>
-const videosBio = [
-  {title:"Introduction To Biology",thumb:"https://img.youtube.com/vi/BkUxxIlamyE/hqdefault.jpg",link:"https://www.youtube.com/embed/URUJD5NEXC8"},
-  {title:"Cell Structure and Organization ",thumb:"https://img.youtube.com/vi/0rBD_Xy1ASY/hqdefault.jpg",link:"https://www.youtube.com/embed/0rBD_Xy1ASY"},
-  {title:"Enzymes ",thumb:"https://img.youtube.com/vi/ovQi36xoh7g/hqdefault.jpg",link:"https://www.youtube.com/embed/ovQi36xoh7g"},
-  {
-    title: "Nutrition: Nutrients (Zambia)", 
-    thumb: "https://img.youtube.com/vi/P8TLITb9ryo/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/P8TLITb9ryo"
-  },
-  {
-    title: "PLANT NUTRITION:External and internal structure of a leaf 🌿", 
-    thumb: "https://img.youtube.com/vi/h_GvaJlNDmE/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/h_GvaJlNDmE"
-  },
-  {
-    title: "SAPROPHYTIC NUTRITION: Rhizopus ", 
-    thumb: "https://img.youtube.com/vi/h9b61eB-GZA/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/h9b61eB-GZA"
-  },
-  {
-    title: " NUTRITION IN ANIMALS: Dentition", 
-    thumb: "https://img.youtube.com/vi/QRKkh4vDr58/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/QRKkh4vDr58"
-  },
-  {
-    title: "NUTRITION IN ANIMALS: Holozoic Nutrition ", 
-    thumb: "https://https://img.youtube.com/embed/XJaZVOxzOvU/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/XJaZVOxzOvU"
-  },
-  {
-    title: "RESPIRATION", 
-    thumb: "https://img.youtube.com/vi/JI5pKtDkV1c/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/JI5pKtDkV1c"
-  },
-];
-
-const rowBio = document.getElementById('videoRowBio');
-videosBio.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopupBio(v.link);
-  rowBio.appendChild(card);
-  card.addEventListener('click', () => openGlobalPopup(v.link));
-  return card;
-});
-
-
-</script>
-  
-  <div class="video-section">
-  <h2>🧬 Grade 11 Biology</h2>
-  <div class="video-row" id="grade11biology"></div>
-</div>
-
-
-<script>
-const grade11BioVideos = [
-  {title:"Transport In Plant",thumb:"https://img.youtube.com/vi/lk5AlpPVxg4/hqdefault.jpg",link:"https://www.youtube.com/embed/lk5AlpPVxg4"},
-  {title:"Transport In Man",thumb:"https://img.youtube.com/vi/K0AB3i10pLU/hqdefault.jpg",link:"https://www.youtube.com/embed/K0AB3i10pLU"},
-  {title:"Excretion",thumb:"https://img.youtube.com/vi/NnffcVHupcg/hqdefault.jpg",link:"https://www.youtube.com/embed/NnffcVHupcg"}
-];
-
-const rowG11Bio = document.getElementById('grade11biology');
-grade11BioVideos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopup_grade11biology(v.link);
-  rowG11Bio.appendChild(card);
-  card.onclick = () => openGlobalPopup(v.link);
-});
-
-
-</script>
-  
-  <div class="video-section">
-  <h2>🧬 Grade 12 Biology</h2>
-  <div class="video-row" id="grade12biology"></div>
-</div>
-
-
-
-<script>
-const grade12BioVideos = [
-  {title:"Sexual Reproduction In Flowering Plant",thumb:"https://img.youtube.com/vi/jukf71CpFIg/hqdefault.jpg",link:"https://www.youtube.com/embed/jukf71CpFIg"},
-  {title:"Asexual Reproduction In Flowing Plants",thumb:"https://img.youtube.com/vi/GRc5d8e2AJk/hqdefault.jpg",link:"https://www.youtube.com/embed/GRc5d8e2AJk"},
-  {title:"Reproduction In Animals 1",thumb:"https://img.youtube.com/vi/N-FJTL0okjI/hqdefault.jpg",link:"https://www.youtube.com/embed/N-FJTL0okjI"}
-];
-
-const rowG12Bio = document.getElementById('grade12biology');
-grade12BioVideos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openPopup_grade12biology(v.link);
-  rowG12Bio.appendChild(card);
-  card.onclick = () => openGlobalPopup(v.link);
-});
-
-
-</script>
-  
-  <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 2px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1dlxf8TxldHZ06VymRNaHAL7XH9JtUkni/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1dlxf8TxldHZ06VymRNaHAL7XH9JtUkni" style="height: 80%; object-fit: cover; width: 100%;" />
-      <div style="padding: 0px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Biology Grade 10-12 Syllabus</h4>
-        <p style="color: #555555; font-size: 14px; margin: 1px 0px 0px;">By Nawa S.A   <small>12 October, 2022</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 2px solid #000; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/151U6TIV50iTZ_WdKvwNU7uXoVUj49EkT/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=151U6TIV50iTZ_WdKvwNU7uXoVUj49EkT" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 16px; margin: 0px;">Biology Zase G10-12</h4>
-        <p style="color: #555555; font-size: 8px; margin: 5px 0px 0px;">By Fred Mutale</p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div class="premium-doc" data-doc-link="https://drive.google.com/file/d/1SCfyr2Of1bYloyK-33x43kHp2hCleANh/view?usp=sharing" 
-       style="border:1px solid #000; width:140px; border-radius:8px; overflow:hidden; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.2); flex-shrink:0;">
-    <a href="#" onclick="return false;">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1zoOfpfuTmA1Z-YevDggZUtAnhBHhmxeC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 16px; margin: 0px;">Success in Biology</h4>
-        <p style="color: #555555; font-size: 14px; margin: 5px 0px 0px;">By Pauline Banda</p>
-      </div>
-    </a>
-  </div>
-  </div>
-  <div class="video-section">
-  <h2>📝 English Grade 10</h2>
-  <div class="video-row" id="englishgrade10"></div>
-</div>
-
-<script>
-const english10Videos = [
-  { title:"Grammar Basics", thumb:"https://img.youtube.com/vi/snIg_DQh0Zc/hqdefault.jpg", link:"https://www.youtube.com/embed/snIg_DQh0Zc" },
-  { title:"Essay Writing Skills", thumb:"https://img.youtube.com/vi/uHEN2dt3gKc/hqdefault.jpg", link:"https://www.youtube.com/embed/uHEN2dt3gKc" },
-  { title:"Reading Comprehension", thumb:"https://i.ytimg.com/vi/8zO2vFjaJRs/hqdefault.jpg", link:"https://www.youtube.com/embed/8zO2vFjaJRs" },
-  { title:"Tenses and Verbs", thumb:"https://i.ytimg.com/vi/6q6vDkG2Hzo/hqdefault.jpg", link:"https://www.youtube.com/embed/6q6vDkG2Hzo" }
-];
-
-const rowEng10 = document.getElementById('englishgrade10');
-english10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowEng10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📝 English Grade 11</h2>
-  <div class="video-row" id="englishgrade11"></div>
-</div>
-
-<script>
-const english11Videos = [
-  {
-    title: "Grade 11 – English Language: Nouns, Verbs, Adjectives and Adverbs", 
-    thumb: "https://img.youtube.com/vi/9upIZyPvj‑U/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/9upIZyPvj‑U"
-  },
-  {
-    title: "Grade 11 English Session 1 – Comprehension Skills", 
-    thumb: "https://img.youtube.com/vi/7u_QYKs9SjU/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/7u_QYKs9SjU"
-  },
-  {
-    title: "Grade 11 English Unit 4 Part 1: Expressing Opinion + Descriptive Writing + Summary Writing", 
-    thumb: "https://img.youtube.com/vi/DhXmeRNbAwo/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/DhXmeRNbAwo"
-  }
-];
-
-const rowEng11 = document.getElementById('englishgrade11');
-english11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowEng11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📝 English Grade 12</h2>
-  <div class="video-row" id="englishgrade12"></div>
-</div>
-
-<script>
-const english12Videos = [
-  {
-    title: "Zambia Grade 12 English – Advanced Composition & Summary",
-    thumb: "https://img.youtube.com/vi/EXAMPLE1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/EXAMPLE1"
-  },
-  {
-    title: "Zambia Grade 12 English – Literature Discussion: Set Book",
-    thumb: "https://img.youtube.com/vi/EXAMPLE2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/EXAMPLE2"
-  },
-  {
-    title: "Zambia Grade 12 English – Exam Skills: Paper 1 & 2",
-    thumb: "https://img.youtube.com/vi/EXAMPLE3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/EXAMPLE3"
-  }
-];
-
-const rowEng12 = document.getElementById('englishgrade12');
-english12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowEng12.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📐 Physics Grade 10</h2>
-  <div class="video-row" id="physicsgrade10"></div>
-</div>
-
-<script>
-const physics10Videos = [
-  {
-    title: " Introduction to Physics",
-    thumb: "https://img.youtube.com/vi/KhXJV7xzP7c/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/KhXJV7xzP7c"
-  },
-  {
-    title: "Zambia Physics G10 – Linear Motion & Forces",
-    thumb: "https://img.youtube.com/vi/PHY10EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY10EX2"
-  },
-  {
-    title: "Zambia Physics G10 – Density, Work, Power",
-    thumb: "https://img.youtube.com/vi/PHY10EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY10EX3"
-  }
-];
-
-const rowPhy10 = document.getElementById('physicsgrade10');
-physics10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowPhy10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📐 Physics Grade 11</h2>
-  <div class="video-row" id="physicsgrade11"></div>
-</div>
-
-<script>
-const physics11Videos = [
-  {
-    title: "Zambia Physics G11 – Thermal Physics & Heat Transfer",
-    thumb: "https://img.youtube.com/vi/PHY11EX1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY11EX1"
-  },
-  {
-    title: "Zambia Physics G11 – Wave Motion & Sound",
-    thumb: "https://img.youtube.com/vi/PHY11EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY11EX2"
-  },
-  {
-    title: "Zambia Physics G11 – Expansion of Solids, Liquids & Gases",
-    thumb: "https://img.youtube.com/vi/PHY11EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY11EX3"
-  }
-];
-
-const rowPhy11 = document.getElementById('physicsgrade11');
-physics11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowPhy11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📐 Physics Grade 12</h2>
-  <div class="video-row" id="physicsgrade12"></div>
-</div>
-
-<script>
-const physics12Videos = [
-  {
-    title: "Zambia Physics G12 – Current Electricity & Resistance",
-    thumb: "https://img.youtube.com/vi/PHY12EX1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY12EX1"
-  },
-  {
-    title: "Zambia Physics G12 – Magnetism & Electromagnetic Induction",
-    thumb: "https://img.youtube.com/vi/PHY12EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY12EX2"
-  },
-  {
-    title: "Zambia Physics G12 – Nuclear Physics & Modern Physics",
-    thumb: "https://img.youtube.com/vi/PHY12EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PHY12EX3"
-  }
-];
-
-const rowPhy12 = document.getElementById('physicsgrade12');
-physics12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowPhy12.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🧪 Chemistry Grade 10</h2>
-  <div class="video-row" id="chemistrygrade10"></div>
-</div>
-
-<script>
-const chemistry10Videos = [
-  {
-    title: "Zambia Chemistry G10 – Introduction & States of Matter",
-    thumb: "https://img.youtube.com/vi/CHEM10EX1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM10EX1"
-  },
-  {
-    title: "Zambia Chemistry G10 – Atoms, Elements & Periodic Table",
-    thumb: "https://img.youtube.com/vi/CHEM10EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM10EX2"
-  },
-  {
-    title: "Zambia Chemistry G10 – Experimental Techniques & Purity of Substances",
-    thumb: "https://img.youtube.com/vi/CHEM10EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM10EX3"
-  }
-];
-
-const rowChem10 = document.getElementById('chemistrygrade10');
-chemistry10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowChem10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🧪 Chemistry Grade 11</h2>
-  <div class="video-row" id="chemistrygrade11"></div>
-</div>
-
-<script>
-const chemistry11Videos = [
-  {
-    title: "Zambia Chemistry G11 – Salts, Hydrated vs Anhydrous, Titration",
-    thumb: "https://img.youtube.com/vi/CHEM11EX1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM11EX1"
-  },
-  {
-    title: "Zambia Chemistry G11 – Chemical Bonding & Periodic Trends",
-    thumb: "https://img.youtube.com/vi/CHEM11EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM11EX2"
-  },
-  {
-    title: "Zambia Chemistry G11 – Qualitative Analysis Tests (Anions & Cations)",
-    thumb: "https://img.youtube.com/vi/CHEM11EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM11EX3"
-  }
-];
-
-const rowChem11 = document.getElementById('chemistrygrade11');
-chemistry11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowChem11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🧪 Chemistry Grade 12</h2>
-  <div class="video-row" id="chemistrygrade12"></div>
-</div>
-
-<script>
-const chemistry12Videos = [
-  {
-    title: "Zambia Chemistry G12 – Organic Chemistry: Carboxylic Acids & Derivatives",
-    thumb: "https://img.youtube.com/vi/CHEM12EX1/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM12EX1"
-  },
-  {
-    title: "Zambia Chemistry G12 – Electrochemistry & Rates of Reaction",
-    thumb: "https://img.youtube.com/vi/CHEM12EX2/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM12EX2"
-  },
-  {
-    title: "Zambia Chemistry G12 – Environmental Chemistry & Industrial Applications",
-    thumb: "https://img.youtube.com/vi/CHEM12EX3/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/CHEM12EX3"
-  }
-];
-
-const rowChem12 = document.getElementById('chemistrygrade12');
-chemistry12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowChem12.appendChild(card);
-});
-</script>
-<div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 2px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1dlxf8TxldHZ06VymRNaHAL7XH9JtUkni/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1dlxf8TxldHZ06VymRNaHAL7XH9JtUkni" style="height: 80%; object-fit: cover; width: 100%;" />
-      <div style="padding: 0px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Question Pamphlet </h4>
-        <p style="color: #555555; font-size: 14px; margin: 1px 0px 0px;">By Ben Makaka <small>12 October, 2022</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 2px solid #000; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/151U6TIV50iTZ_WdKvwNU7uXoVUj49EkT/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=151U6TIV50iTZ_WdKvwNU7uXoVUj49EkT" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 16px; margin: 0px;">Biology Zase G10-12</h4>
-        <p style="color: #555555; font-size: 8px; margin: 5px 0px 0px;">By Fred Mutale</p>
-      </div>
-    </a>
-  </div>
-</div>
-    
-   <div class="video-section">
-  <h2>🧑‍⚖️ Civic Education Grade 10</h2>
-  <div class="video-row" id="civicgrade10"></div>
-</div>
-
-<script>
-const civic10Videos = [
-  {
-    title: "2025 GCE - Grade 10 Civic Education Lesson 1 (Zambia)",
-    thumb: "https://img.youtube.com/vi/KDxICmVdttY/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/KDxICmVdttY"
-  },
-  {
-    title: "Governance System in Zambia – Grade 10 Civic Education",
-    thumb: "https://img.youtube.com/vi/YdaLU-EUlWY/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/YdaLU-EUlWY"
-  },
-  {
-    title: "Types of Citizenship in Zambia – Grade 10 Civic Education",
-    thumb: "https://img.youtube.com/vi/Jqcf7DlvF98/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/Jqcf7DlvF98"
-  }
-];
-
-const rowCiv10 = document.getElementById('civicgrade10');
-civic10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowCiv10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🧑‍⚖️ Civic Education Grade 11</h2>
-  <div class="video-row" id="civicgrade11"></div>
-</div>
-
-<script>
-const civic11Videos = [
-  {
-    title: "Civic Education Grade 11 – Human Rights & Democracy (Zambia)",
-    thumb: "https://img.youtube.com/vi/3SfKMZKVu8k/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/3SfKMZKVu8k"
-  },
-  {
-    title: "Citizen Participation in Governance – GCE Civic Education Zambia",
-    thumb: "https://img.youtube.com/vi/7Sqt4uGVCms/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/7Sqt4uGVCms"
-  },
-  {
-    title: "Civic Education Zambia – Corruption & Good Governance Grade 11",
-    thumb: "https://img.youtube.com/vi/GW_I‑OXz5yI/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/GW_I‑OXz5yI"
-  }
-];
-
-const rowCiv11 = document.getElementById('civicgrade11');
-civic11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowCiv11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🧑‍⚖️ Civic Education Grade 12</h2>
-  <div class="video-row" id="civicgrade12"></div>
-</div>
-
-<script>
-const civic12Videos = [
-  {
-    title: "Civic Education Grade 12 – Constitutionalism in Zambia",
-    thumb: "https://img.youtube.com/vi/KhxEwZtxggs/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/KhxEwZtxggs"
-  },
-  {
-    title: "Civic Education Zambia – Elections & Political Systems Grade 12",
-    thumb: "https://img.youtube.com/vi/nYPxeftV1Sk/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/nYPxeftV1Sk"
-  },
-  {
-    title: "Good Governance & Development Planning – Grade 12 Civic Education Zambia",
-    thumb: "https://img.youtube.com/vi/3SfKMZKVu8k/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/3SfKMZKVu8k"
-  }
-];
-
-const rowCiv12 = document.getElementById('civicgrade12');
-civic12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowCiv12.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🌍 Geography Grade 10</h2>
-  <div class="video-row" id="geographygrade10"></div>
-</div>
-
-<script>
-const geography10Videos = [
-  {
-    title: "Grade 10 Geography – Landforms of Africa (Zambia context)",
-    thumb: "https://img.youtube.com/vi/PLnWd3‑QjB0UMgrC5XsobgN8jwxgmJQfhjk/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/PLnWd3‑QjB0UMgrC5XsobgN8jwxgmJQfhjk"
-  },
-  {
-    title: "Zambia Map Explained – 10 Provinces of Zambia",
-    thumb: "https://img.youtube.com/vi/-9VN9R2FyAA/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/-9VN9R2FyAA"
-  },
-  {
-    title: "Grade 10 Geography – Introduction to the Atmosphere (Zambia)",
-    thumb: "https://img.youtube.com/vi/VideoIDAtmosphere/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDAtmosphere"
-  }
-];
-
-const rowGeo10 = document.getElementById('geographygrade10');
-geography10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowGeo10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🌍 Geography Grade 11</h2>
-  <div class="video-row" id="geographygrade11"></div>
-</div>
-
-<script>
-const geography11Videos = [
-  {
-    title: "Geography Grade 11 – Weather & Climate (Zambia)",
-    thumb: "https://img.youtube.com/vi/VideoIDWeatherZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDWeatherZambia"
-  },
-  {
-    title: "Geography Grade 11 – Rivers & Drainage Systems Zambia",
-    thumb: "https://img.youtube.com/vi/VideoIDRiversZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDRiversZambia"
-  },
-  {
-    title: "Geography G11 – Population & Settlement in Zambia",
-    thumb: "https://img.youtube.com/vi/VideoIDPopulationZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDPopulationZambia"
-  }
-];
-
-const rowGeo11 = document.getElementById('geographygrade11');
-geography11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowGeo11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>🌍 Geography Grade 12</h2>
-  <div class="video-row" id="geographygrade12"></div>
-</div>
-
-<script>
-const geography12Videos = [
-  {
-    title: "Geography Grade 12 – Resource Use & Conservation (Zambia)",
-    thumb: "https://img.youtube.com/vi/VideoIDResourcesZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDResourcesZambia"
-  },
-  {
-    title: "Geography G12 – Environmental Hazards & Zambia Case Study",
-    thumb: "https://img.youtube.com/vi/VideoIDHazardsZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDHazardsZambia"
-  },
-  {
-    title: "Geography Grade 12 – Urbanisation & Sustainable Cities Zambia",
-    thumb: "https://img.youtube.com/vi/VideoIDUrbanZambia/hqdefault.jpg",
-    link: "https://www.youtube.com/embed/VideoIDUrbanZambia"
-  }
-];
-
-const rowGeo12 = document.getElementById('geographygrade12');
-geography12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowGeo12.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📜 History Grade 10</h2>
-  <div class="video-row" id="historygrade10"></div>
-</div>
-
-<script>
-const history10Videos = [
-  {
-    title: "A Super Quick History of Zambia", 
-    thumb: "https://img.youtube.com/vi/44x4W81h8fk/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/44x4W81h8fk"
-  },
-  {
-    title: "The History of Zambia (documentary)", 
-    thumb: "https://img.youtube.com/vi/ezyFwihND0A/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/ezyFwihND0A"
-  },
-  {
-    title: "History grade 10 (YouTube playlist)", 
-    thumb: "https://img.youtube.com/vi/PLfXpdCfxjXmawz_iyafoAuXe5o6c65VVl/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/PLfXpdCfxjXmawz_iyafoAuXe5o6c65VVl"
-  }
-];
-
-const rowHist10 = document.getElementById('historygrade10');
-history10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowHist10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📜 History Grade 11</h2>
-  <div class="video-row" id="historygrade11"></div>
-</div>
-
-<script>
-const history11Videos = [
-  {
-    title: "Zambia Explained in 9 Minutes (History, Geography & Culture)", 
-    thumb: "https://img.youtube.com/vi/e5‑Fh1sgxyE/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/e5‑Fh1sgxyE"
-  },
-  {
-    title: "History of Zambia in 3 Minutes", 
-    thumb: "https://img.youtube.com/vi/oBuRSnBVDQg/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/oBuRSnBVDQg"
-  },
-  {
-    title: "History Grade 10 unit playlist (could adapt for G11)", 
-    thumb: "https://img.youtube.com/vi/PLfXMOdrqGaLwTK9fj97MIOQizc7ImkPTl/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/PLfXMOdrqGaLwTK9fj97MIOQizc7ImkPTl"
-  }
-];
-
-const rowHist11 = document.getElementById('historygrade11');
-history11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowHist11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>📜 History Grade 12</h2>
-  <div class="video-row" id="historygrade12"></div>
-</div>
-
-<script>
-const history12Videos = [
-  {
-    title: "The History of Zambia – deeper dive (to be replaced)", 
-    thumb: "https://img.youtube.com/vi/M885yIfRMIA/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/M885yIfRMIA"
-  },
-  {
-    title: "African History – Zambia segment (to verify syllabus)", 
-    thumb: "https://img.youtube.com/vi/PhYjgeNXDUI/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/PhYjgeNXDUI"
-  },
-  {
-    title: "Placeholder video: upgrade with real Zambia G12 History topic", 
-    thumb: "https://img.youtube.com/vi/VideoIDHistoryG12/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDHistoryG12"
-  }
-];
-
-const rowHist12 = document.getElementById('historygrade12');
-history12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowHist12.appendChild(card);
-});
-</script>
-
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-    </div>
-    <div class="video-section">
-  <h2>✝️ Religious Education Grade 10</h2>
-  <div class="video-row" id="religiouseducationgrade10"></div>
-</div>
-
-<script>
-const re10Videos = [
-  {
-    title: "RE 2046/Summarised Notes – Grade 10 Zambia", 
-    thumb: "https://img.youtube.com/vi/93g9wUGCY_U/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/93g9wUGCY_U"
-  },
-  {
-    title: "RE 2046 Study Tips – Religious Education Zambia", 
-    thumb: "https://img.youtube.com/vi/9kL7VvGn9wg/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/9kL7VvGn9wg"
-  },
-  {
-    title: "RE 2044 G10 Week 1 Zambia", 
-    thumb: "https://img.youtube.com/vi/y6IUZkBj2yg/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/y6IUZkBj2yg"
-  }
-];
-
-const rowRE10 = document.getElementById('religiouseducationgrade10');
-re10Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowRE10.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>✝️ Religious Education Grade 11</h2>
-  <div class="video-row" id="religiouseducationgrade11"></div>
-</div>
-
-<script>
-const re11Videos = [
-  {
-    title: "Religious Education Zambia – Grade 11 Topic (to be replaced)", 
-    thumb: "https://img.youtube.com/vi/VideoIDRE11Zambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDRE11Zambia"
-  },
-  {
-    title: "How to answer Religious Education exams Zambia – Grade 11", 
-    thumb: "https://img.youtube.com/vi/7PUhWeEE6cE/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/7PUhWeEE6cE"
-  },
-  {
-    title: "Morals and Values: Zambia Education – Grade 11 RE", 
-    thumb: "https://img.youtube.com/vi/YrdlVVngc‑s/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/YrdlVVngc‑s"
-  }
-];
-
-const rowRE11 = document.getElementById('religiouseducationgrade11');
-re11Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowRE11.appendChild(card);
-});
-</script>
-    <div class="video-section">
-  <h2>✝️ Religious Education Grade 12</h2>
-  <div class="video-row" id="religiouseducationgrade12"></div>
-</div>
-
-<script>
-const re12Videos = [
-  {
-    title: "Religious Education – Zambia Grade 12 Topic (placeholder)", 
-    thumb: "https://img.youtube.com/vi/VideoIDRE12Zambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDRE12Zambia"
-  },
-  {
-    title: "RE 2046 G12 Exam Strategy Zambia", 
-    thumb: "https://img.youtube.com/vi/VideoIDRE12ExamZambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDRE12ExamZambia"
-  },
-  {
-    title: "Christian Ethics & Society – Zambia Grade 12", 
-    thumb: "https://img.youtube.com/vi/VideoIDEthicsZambia/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/VideoIDEthicsZambia"
-  }
-];
-
-const rowRE12 = document.getElementById('religiouseducationgrade12');
-re12Videos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowRE12.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-    </div>
-    
-
-    
-    
-    
-    
+  <!-- WELCOMING HERO -->
+  <div class="hero-welcome">
+    <h2><i class="fas fa-hand-peace"></i> Welcome to Zed Tuition</h2>
+    <p>Your free, smart companion for Zambian education — ECZ past papers, notes, and video lessons for Grades 5–12 and Form 1–2. <br> 🎓 Learn smarter, not harder.</p>
+    <div class="hero-badge">
+      <span><i class="fas fa-file-alt"></i> 200+ Docs</span>
+      <span><i class="fas fa-video"></i> 150+ Videos</span>
+      <span><i class="fas fa-globe"></i> Multi-source search</span>
     </div>
   </div>
-  <div id="form1" class="subcontent">
-    <h2>Form 1-4</h2>
-    <div class="card">⚠️Please do not click explore tab here to avoid errors,click for you then explore<br> ⚠️Note: This website is in progress.</div>
-<div class="video-section">
-  <h2>📚 Forms Trending (Form 1-4) </h2>
-  <div class="video-row" id="formsTrending"></div>
-</div>
 
-<script>
-const formsTrendingVideos = [
-  {
-    title: " Introduction to physics", 
-    thumb: "https://img.youtube.com/vi/In_Aybr0--Q/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/In_Aybr0--Q"
-  },
-  {
-    title: "FORM 1 Chemistry | lesson 1 ", 
-    thumb: "https://img.youtube.com/vi/0EIgwEKlFv4/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/0EIgwEKlFv4"
-  },
-  {
-    title: "Civic", 
-    thumb: "https://img.youtube.com/vi/4bZXuVMwoL0/hqdefault.jpg", 
-    link: "https://www.youtube.com/embed/4bZXuVMwoL0"
-  }
-];
-
-const rowForms = document.getElementById('formsTrending');
-formsTrendingVideos.forEach(v => {
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <img src="${v.thumb}" alt="${v.title}">
-    <p>${v.title}</p>
-  `;
-  card.onclick = () => openGlobalPopup(v.link);
-  rowForms.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
+  <!-- ABOUT US + SERVICES + TOOLS (Info Grid) -->
+  <div class="info-grid">
+    <div class="info-card">
+      <i class="fas fa-flag-checkered"></i>
+      <h3>About Us</h3>
+      <p>Zed Tuition was created by Zambian educators to provide free, high-quality learning resources. We aggregate Google Drive documents from trusted sources like ZedMaterial, plus video lessons from YouTube, all aligned with the ECZ curriculum.</p>
     </div>
-    <!-- ====== Physics Form 1-4 ====== -->
-<div class="video-section">
-  <h2>⚛️ Physics Form 1-4</h2>
-  <div class="video-row" id="physicsForm1to4"></div>
-</div>
-
-<script>
-const physicsForm1to4Videos = [
-  {title: "Physics Form 1 Lesson 1", thumb: "https://img.youtube.com/vi/In_Aybr0--Q/hqdefault.jpg", link:"https://www.youtube.com/embed/In_Aybr0--Q "},
-  {title: "Physics Form 2 Lesson 1", thumb: "https://img.youtube.com/vi/BnfCMV7NV60/hqdefault.jpg", link:"https://www.youtube.com/embed/BnfCMV7NV60"},
-  {title: "Physics Form 3 Lesson 1", thumb: "https://img.youtube.com/vi/1BS3Itm6L2s/hqdefault.jpg", link:"https://www.youtube.com/embed/1BS3Itm6L2s"},
-  {title: "Physics Form 4 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowPhysics = document.getElementById('physicsForm1to4');
-physicsForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowPhysics.appendChild(card);
-});
-</script>
-
-<!-- ====== Chemistry Form 1-4 ====== -->
-<div class="video-section">
-  <h2>🧪 Chemistry Form 1-4</h2>
-  <div class="video-row" id="chemistryForm1to4"></div>
-</div>
-
-<script>
-const chemistryForm1to4Videos = [
-  {title: "Chemistry Form 1 Lesson 1", thumb: "https://img.youtube.com/vi/0EIgwEKlFv4/hqdefault.jpg", link:"https://www.youtube.com/embed/0EIgwEKlFv4"},
-  {title: "Chemistry Form 1 Lesson 2", thumb: "https://img.youtube.com/vi/sOp6tivXZ4g/hqdefault.jpg", link:"https://www.youtube.com/embed/sOp6tivXZ4g"},
-  {title: "Chemistry Form 1 Lesson 3", thumb: "https://img.youtube.com/vi/KX5Ltk7p4Us/hqdefault.jpg", link:"https://www.youtube.com/embed/KX5Ltk7p4Us"},
-  {title: "Chemistry Form 1 Lesson 4", thumb: "https://img.youtube.com/vi/sOp6tivXZ4g/hqdefault.jpg", link:"https://www.youtube.com/embed/sOp6tivXZ4g"}
-];
-
-const rowChem = document.getElementById('chemistryForm1to4');
-chemistryForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowChem.appendChild(card);
-});
-</script>
-
-<!-- ====== Civic Form 1-4 ====== -->
-<div class="video-section">
-  <h2>🏛️ Civic Form 1-4</h2>
-  <div class="video-row" id="civicForm1to4"></div>
-</div>
-
-<script>
-const civicForm1to4Videos = [
-  {title: "Civic Form 1 Lesson 1", thumb: "https://img.youtube.com/vi/4bZXuVMwoL0/hqdefault.jpg", link:"https://www.youtube.com/embed/4bZXuVMwoL0"},
-  {title: "Civic Form 2 Lesson 1", thumb: "https://img.youtube.com/vi/zAK4wH3-wbA/hqdefault.jpg", link:"https://www.youtube.com/embed/zAK4wH3-wbA"},
-  {title: "Civic Form 3 Lesson 1", thumb: "https://img.youtube.com/vi/5BW0eqVFtYo/hqdefault.jpg", link:"https://www.youtube.com/embed/5BW0eqVFtYo"},
-  {title: "Civic Form 4 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowCivic = document.getElementById('civicForm1to4');
-civicForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowCivic.appendChild(card);
-});
-</script>
-
-<!-- ====== Geography Form 1-4 ====== -->
-<div class="video-section">
-  <h2>🌍 Geography Form 1-4</h2>
-  <div class="video-row" id="geographyForm1to4"></div>
-</div>
-
-<script>
-const geographyForm1to4Videos = [
-  {title: "Geography Form 1 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Geography Form 2 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Geography Form 3 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Geography Form 4 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowGeo = document.getElementById('geographyForm1to4');
-geographyForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowGeo.appendChild(card);
-});
-</script>
-
-<!-- ====== History Form 1-4 ====== -->
-<div class="video-section">
-  <h2>📜 History Form 1-4</h2>
-  <div class="video-row" id="historyForm1to4"></div>
-</div>
-
-<script>
-const historyForm1to4Videos = [
-  {title: "History Form 1 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "History Form 2 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "History Form 3 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "History Form 4 Lesson 1", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowHist = document.getElementById('historyForm1to4');
-historyForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowHist.appendChild(card);
-});
-</script>
-
-<!-- ====== Account & Commerce Form 1-4 ====== -->
-<div class="video-section">
-  <h2>💼 Account & Commerce Form 1-4</h2>
-  <div class="video-row" id="accountCommerceForm1to4"></div>
-</div>
-
-<script>
-const accountCommerceForm1to4Videos = [
-  {title: "Account & Commerce Form 1 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Account & Commerce Form 2 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Account & Commerce Form 3 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Account & Commerce Form 4 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowAccComm = document.getElementById('accountCommerceForm1to4');
-accountCommerceForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowAccComm.appendChild(card);
-});
-</script>
-
-<!-- ====== Literature Form 1-4 ====== -->
-<div class="video-section">
-  <h2>📚 Literature Form 1-4</h2>
-  <div class="video-row" id="literatureForm1to4"></div>
-</div>
-
-<script>
-const literatureForm1to4Videos = [
-  {title: "Literature Form 1 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Literature Form 2 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Literature Form 3 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title: "Literature Form 4 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowLit = document.getElementById('literatureForm1to4');
-literatureForm1to4Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowLit.appendChild(card);
-});
-</script>
-
-
-    
-  </div>
-  <div id="grade5" class="subcontent">
-    <h2>Grade 5-7</h2>
-    <div class="card">Learn with interactive materials for Grades 5-7.</div>
-<!-- ====== Trending Videos Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>🔥 Trending Videos Grade 5-7</h2>
-  <div class="video-row" id="trendingGrade5to7"></div>
-</div>
-
-<script>
-const trendingGrade5to7Videos = [
-  {title:"Math Tricks for Grades 5-7", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"English Fun Reading", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Science Experiments at Home", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"History Stories Made Easy", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Geography Fun Facts", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const trendingRow5to7 = document.getElementById('trendingGrade5to7');
-trendingGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link); // Uses global spinner
-  trendingRow5to7.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
+    <div class="info-card">
+      <i class="fas fa-concierge-bell"></i>
+      <h3>Our Services</h3>
+      <p>✓ ECZ past papers & revision notes<br>✓ Subject video libraries (Maths, Science, English, etc.)<br>✓ Document sharing & embedded preview<br>✓ Grade 10-12, Form 1-2, Primary 5-7</p>
     </div>
-    
-    <!-- ====== English Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>📝 English Grade 5-7</h2>
-  <div class="video-row" id="englishGrade5to7"></div>
-</div>
-
-<script>
-const englishGrade5to7Videos = [
-  {title:"English Grade 5 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"English Grade 6 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"English Grade 7 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowEng5to7 = document.getElementById('englishGrade5to7');
-englishGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowEng5to7.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
+    <div class="info-card">
+      <i class="fas fa-tools"></i>
+      <h3>Tools & Features</h3>
+      <div class="tools-list">
+        <span><i class="fas fa-filter"></i> Smart filter</span>
+        <span><i class="fas fa-share-alt"></i> Share docs</span>
+        <span><i class="fas fa-download"></i> Download PDFs</span>
+        <span><i class="fas fa-play-circle"></i> Video embed</span>
+        <span><i class="fas fa-search"></i> Cross-source search</span>
       </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
     </div>
-
-<!-- ====== Maths Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>➗ Maths Grade 5-7</h2>
-  <div class="video-row" id="mathsGrade5to7"></div>
-</div>
-
-<script>
-const mathsGrade5to7Videos = [
-  {title:"Maths Grade 5 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Maths Grade 6 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Maths Grade 7 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowMaths5to7 = document.getElementById('mathsGrade5to7');
-mathsGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowMaths5to7.appendChild(card);
-});
-</script>
-    <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
   </div>
 
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
+  <!-- SEARCH & FILTER SECTION (documents + videos from local & external) -->
+  <div class="search-section" id="resources">
+    <div class="search-wrapper">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔎 Search for 'Maths grade 10', 'Biology notes', 'ECZ past paper'...">
+        <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
       </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
+      <div class="filter-group">
+        <select id="typeFilter">
+          <option value="all">📌 All types</option>
+          <option value="doc">📄 Documents</option>
+          <option value="video">🎬 Videos</option>
+        </select>
+        <select id="levelFilter">
+          <option value="all">🎓 All levels</option>
+          <option value="grade10-12">Senior (10-12)</option>
+          <option value="form1-2">Form 1-2</option>
+          <option value="primary">Primary (5-7)</option>
+        </select>
+        <button id="resetFiltersBtn"><i class="fas fa-undo-alt"></i> Reset</button>
       </div>
-    </a>
-  </div>
     </div>
-
-<!-- ====== Science Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>🔬 Science Grade 5-7</h2>
-  <div class="video-row" id="scienceGrade5to7"></div>
-</div>
-
-<script>
-const scienceGrade5to7Videos = [
-  {title:"Science Grade 5 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Science Grade 6 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Science Grade 7 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowScience5to7 = document.getElementById('scienceGrade5to7');
-scienceGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowScience5to7.appendChild(card);
-});
-</script>
-<div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
+    <div class="result-stats" id="resultStats">Loading resources...</div>
   </div>
 
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
+  <!-- Dynamic Resource Grid -->
+  <div id="resourceGrid" class="resource-grid">
+    <div class="no-results"><i class="fas fa-spinner fa-pulse"></i> Loading educational content...</div>
   </div>
 
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-</div>
-<!-- ====== Civic Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>🏛️ Civic Grade 5-7</h2>
-  <div class="video-row" id="civicGrade5to7"></div>
-</div>
-
-<script>
-const civicGrade5to7Videos = [
-  {title:"Civic Grade 5 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Civic Grade 6 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Civic Grade 7 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowCivic5to7 = document.getElementById('civicGrade5to7');
-civicGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowCivic5to7.appendChild(card);
-});
-</script>
-<div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-</div>
-<!-- ====== Geography Grade 5-7 ====== -->
-<div class="video-section">
-  <h2>🌍 Geography Grade 5-7</h2>
-  <div class="video-row" id="geographyGrade5to7"></div>
-</div>
-
-<script>
-const geographyGrade5to7Videos = [
-  {title:"Geography Grade 5 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Geography Grade 6 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Geography Grade 7 Lesson 1", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const rowGeo5to7 = document.getElementById('geographyGrade5to7');
-geographyGrade5to7Videos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><p>${v.title}</p>`;
-  card.onclick=()=>openGlobalPopup(v.link);
-  rowGeo5to7.appendChild(card);
-});
-</script>
-
-<div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-</div>
-    
-  
-
-
-
-  
-  
-  </div>
-  <div id="kids" class="subcontent">
-    <h2>Kids</h2>
-<div class="card">Fun learning games and cartoon-based lessons for kids.</div>
-
-  
-  <div style="display: flex; gap: 15px; overflow-x: auto; padding: 10px;">
-  <!--Card 1-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1lsEqaYs-_8eXLhULgH84wTKTcQPkf49s" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Introduction To Nursing</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Jonh •<small> 19th October,2025</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 2-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC/view?usp=drivesdk" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Chemistry Grade 10-12</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">By Kitwe Debs • <small> 20th September,2023</small></p>
-      </div>
-    </a>
-  </div>
-
-  <!--Card 3-->
-  <div style="border-radius: 8px; border: 1px solid rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 6px; flex-shrink: 0; height: 200px; overflow: hidden; text-align: center; width: 140px;">
-    <a href="https://drive.google.com/file/d/FILE_ID_3/view?usp=sharing" target="_blank">
-      <img alt="Document Thumbnail" src="https://drive.google.com/thumbnail?id=FILE_ID_3" style="height: 150px; object-fit: cover; width: 100%;" />
-      <div style="padding: 10px;">
-        <h4 style="color: white; font-size: 8px; margin: 0px;">Document Title 3</h4>
-        <p style="color: #555555; font-size: 10px; margin: 5px 0px 0px;">Google Docs</p>
-      </div>
-    </a>
-  </div>
-  </div>
-  
-  
-  </div>
-</div>
-
-<!-- EXPLORE -->
-<div id="explore" class="tab-content">
-  <div class="subtabs" id="exploreTabs">
-    <button class="active" onclick="showExplore('shorts')">Short Videos</button>
-    <button onclick="showExplore('advice')">Teachers Advice</button>
-    <button onclick="showExplore('tuitions')">Tuitions</button>
-    <button onclick="showExplore('live')">Live Video</button>
-  </div>
-
-<div id="shorts" class="subcontent">
-  
-<!-- Elfsight AI Chatbot | Search AI -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-83975293-5ca4-49d2-9332-14eac0b26a28" data-elfsight-app-lazy></div>
-
-
-</div>
-  <div id="advice" class="subcontent">
-    <h2>Teachers Advice</h2>
-    <div class="card">Guidance from expert teachers on study habits.</div>
-
-  
-  
-  
-  </div>
-  <div id="tuitions" class="subcontent">
-    <h2>Tuitions</h2>
-    <div class="card">Join our trusted online and local tuitions.</div>
-  </div>
-  <div id="live" class="subclass="card">Watch quick educational clips for fast learning.</div>
-  </div>
-  <div id="advice" class="subcontent">
-    <h2>Teachers Advice</h2>
-    <div class="card">Guidance from expert teachers on study habits.</div>
-  </div>
-  <div id="tuitions" class="subcontent">
-    <h2>Tuitions</h2>
-    <div class="card">Join our trusted online and local tuitions.</div>
-  </div>
-  <div id="live" class="subcontent">
-    <h2>Live Video</h2>
-    <div class="card">Join live educational sessions happening now.</div>
-<!-- ====== Tertiary: Live Videos ====== -->
-<div class="video-section">
-  <h2>📡 Tertiary Live Videos</h2>
-  <div class="video-row" id="tertiaryLiveVideos"></div>
-</div>
-
-<script>
-const tertiaryLiveVideos = [
-  {title:"Engineering Webinar Live", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Business Seminar Live", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Science Lecture Live", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Education & Training Live", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"},
-  {title:"Creative Media Live Session", thumb:"https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", link:"https://www.youtube.com/embed/dQw4w9WgXcQ"}
-];
-
-const tertiaryLiveRow = document.getElementById('tertiaryLiveVideos');
-tertiaryLiveVideos.forEach(v=>{
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`
-    <div style="position:relative;">
-      <span style="position:absolute; top:5px; left:5px; background:red; color:white; padding:2px 5px; font-size:12px; border-radius:4px; z-index:5;">🔴 LIVE</span>
-      <img src="${v.thumb}" alt="${v.title}">
+  <!-- PAGES (quick links to dedicated level hubs) -->
+  <div class="quick-links">
+    <h3><i class="fas fa-layer-group"></i> Explore our subject hubs</h3>
+    <div class="quick-cards">
+      <a href="grade10-12.html" class="quick-card"><i class="fas fa-graduation-cap"></i> Grade 10-12</a>
+      <a href="form1-2.html" class="quick-card"><i class="fas fa-school"></i> Form 1-2</a>
+      <a href="primary.html" class="quick-card"><i class="fas fa-child"></i> Primary 5-7</a>
     </div>
-    <p>${v.title}</p>
-  `;
-  card.onclick=()=>openGlobalPopup(v.link); // Uses global spinner
-  tertiaryLiveRow.appendChild(card);
-});
-   </script>
   </div>
-</div>
-
-<!-- MY LIST -->
-<div id="mylist" class="tab-content">
-  <h2>My List</h2>
-  <div class="card">Your saved videos, notes, and courses appear here.</div>
-</div>
-
-<!-- ME -->
-<div id="me" class="tab-content">
-  <h2>My Profile</h2>
-  <div class="card">View your learning stats, profile, and achievements.</div>
-
-  
-
-
-
-</div>
-
-<!-- MAIN TABS -->
-<div class="main-tabs">
-  <button class="active" onclick="openTab('home', this)">
-    <!-- Home Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
-    Home
-  </button>
-
-  <button onclick="openTab('explore', this)">
-    <!-- Explore Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
-               10-4.48 10-10S17.52 2 12 2zm3.25 13.25l-5.5
-               2.25 2.25-5.5 5.5-2.25-2.25 5.5z"/>
-    </svg>
-   Explore 
-  </button>
-
-  <button onclick="openTab('mylist', this)">
-    <!-- My List Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white">
-      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 
-               2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2
-               10H7v-2h10v2zm0-4H7V7h10v2z"/>
-    </svg>
-    My List
-  </button>
-
-  <button onclick="openTab('me', this)">
-    <!-- Me Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="white">
-      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 
-               5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
-    </svg>
-    Me
-  </button>
-</div>
-
-<script>
-  // Main Tabs
-  function openTab(tabName, btn) {
-    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-    document.querySelector(`#${tabName}`).style.display = 'block';
-
-    document.querySelectorAll('.main-tabs button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  // Home Subtabs
-  function showSubtab(name) {
-    document.querySelectorAll('#home .subcontent').forEach(c => c.classList.remove('active'));
-    document.getElementById(name).classList.add('active');
-    document.querySelectorAll('#homeTabs button').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-  }
-// Add this function definition to fix subtab switching
-function showSubtab(tabId) {
-  // 1. Remove 'active' class from all subcontent divs (hides them)
-  document.querySelectorAll('.subcontent').forEach(c => c.classList.remove('active'));
-
-  // 2. Add 'active' class to the requested subcontent div (shows it)
-  document.getElementById(tabId).classList.add('active');
-
-  // 3. Update the active button style
-  document.querySelectorAll('.subtabs button').forEach(b => b.classList.remove('active'));
-  
-  // This line finds the button that was clicked and sets it as active
-  const clickedButton = document.querySelector(`.subtabs button[onclick="showSubtab('${tabId}')"]`);
-  if (clickedButton) {
-    clickedButton.classList.add('active');
-  }
-}
-  
-  // Explore Subtabs
-  function showExplore(name) {
-    document.querySelectorAll('#explore .subcontent').forEach(c => c.classList.remove('active'));
-    document.getElementById(name).classList.add('active');
-    document.querySelectorAll('#exploreTabs button').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-  }
-  // Sidebar Functions
-function openSidebar() {
-  document.getElementById("sidebar").style.width = "250px";
-}
-function closeSidebar() {
-  document.getElementById("sidebar").style.width = "0";
-}
-
-// About Message
-function showAbout() {
-  closeSidebar();
-  alert("EduStream is a platform that provides free and fun educational resources for learners of all levels.");
-}
-
-// Share Function
-function shareSite() {
-  closeSidebar();
-  if (navigator.share) {
-    navigator.share({
-      title: 'Extra Learn Search',
-      text: 'Check out this awesome educational site!',
-      url: window.location.href,
-    });
-  } else {
-    alert("Copy and share this site link:\n" + window.location.href);
-  }
-}
-</script>
-  <!-- 🌍 Global Video Popup -->
-<div id="globalVideoPopup" class="popup">
-  <div id="globalSpinner" class="spinner"></div>
-  <iframe id="globalVideoPlayer" allowfullscreen></iframe>
-  <span id="globalCloseBtn" class="closeBtn" onclick="closeGlobalPopup()">×</span>
-</div>
-  <script>
-// 🌍 Universal Popup Logic
-const popup = document.getElementById('globalVideoPopup');
-const spinner = document.getElementById('globalSpinner');
-const iframe = document.getElementById('globalVideoPlayer');
-
-// Function: Open popup with spinner
-function openGlobalPopup(link) {
-  popup.style.display = 'flex';
-  spinner.style.display = 'flex';
-  iframe.style.display = 'none';
-  iframe.src = link + "?autoplay=1";
-
-  // When video loads
-  iframe.onload = () => {
-    spinner.style.display = 'none';
-    iframe.style.display = 'block';
-  };
-}
-
-// Function: Close popup
-function closeGlobalPopup() {
-  popup.style.display = 'none';
-  iframe.src = "";
-}
-  </script>
-  <div id="cookieConsent"
-     style="position: fixed; bottom: 0; left: 0; right:0;
-     background: #222; color: #fff; padding: 15px;
-     text-align: center; z-index: 9999; display: none;">
-    
-    This website uses cookies to improve your experience. 
-    By using this site, you accept our 
-    <a href="/Privacy -policy.html" style="color:#4ea3ff;">Privacy Policy</a> 
-    and 
-    <a href="/terms-and-conditions.html" style="color:#4ea3ff;">Terms.</a>
-
-    <button onclick="acceptCookies()" 
-      style="background:#4ea3ff; color:white; padding:8px 15px; border:none; margin-left:10px;">
-        Accept
-    </button>
-</div>
-
-<script>
-function acceptCookies() {
-    localStorage.setItem("cookiesAccepted", "true");
-    document.getElementById("cookieConsent").style.display = "none";
-}
-
-window.onload = function() {
-    if (!localStorage.getItem("cookiesAccepted")) {
-        document.getElementById("cookieConsent").style.display = "block";
-    }
-}
-</script>
-  
-</body>
-  <footer style="text-align:center; padding:20px;">
-  <a href="/privacy-policy.html">Privacy Policy</a> |
-  <a href="/terms-and-conditions.html">Terms & Conditions</a>
-    <p>By ©Amimo AC</p>
+  <footer>
+    <i class="fas fa-copyright"></i> 2025 Zed Tuition — Empowering Zambian learners. Freely accessible resources from ZedMaterial, ECZ, and partners.
   </footer>
-</html>
+</div>
+
+<script>
+  // -------------------- DOCUMENTS (local + external ZedMaterial) --------------------
+  const documentsData = {
+    "grade10-12": [
+      { title: "Progress in Maths Grade 10", id: "1blK7UXeLCWPuNiUzben75qLe3ms1eiAB", subject: "Mathematics", level: "grade10-12", source: "ZedTuition" },
+      { title: "Maths grade 10-12 Study Guide", id: "1YX_DNXRSAuqqhlc49EYFzm675BdKZZV1", subject: "Mathematics", level: "grade10-12", source: "ZedTuition" },
+      { title: "Amplified English grade 10-12", id: "1j18dymh-AuJtBKN8ltPFfBO9y-SRsUXu", subject: "English", level: "grade10-12", source: "ZedTuition" },
+      { title: "Biology Zase notes", id: "1InRLQECwgRzj6pnIhYsfF-ANpsTRyo6C", subject: "Biology", level: "grade10-12", source: "ZedTuition" },
+      { title: "Physics Q&A", id: "1I_ZYCO1DwDZL5Sqx6xWIwyo6fQMjnIMO", subject: "Physics", level: "grade10-12", source: "ZedTuition" },
+      { title: "Chemistry amplified notes", id: "1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC", subject: "Chemistry", level: "grade10-12", source: "ZedTuition" },
+      { title: "Civic Education pamphlet", id: "1yHrlBhbrX5OENW5PFoq-a3avSdRlVXA8", subject: "Civic", level: "grade10-12", source: "ZedTuition" },
+      { title: "Geography notes", id: "1J-dsIsDtBVk7ii6sn7TxHxtDgbswCrZO", subject: "Geography", level: "grade10-12", source: "ZedTuition" },
+      { title: "History P1", id: "1Ik5ShFeS1CAeMA1QnKIn27eDOW8XeLco", subject: "History", level: "grade10-12", source: "ZedTuition" },
+      { title: "Literature in English", id: "1LKu4jvBP04BJEWFuqt4OeI9UYNAizwcl", subject: "Literature", level: "grade10-12", source: "ZedTuition" }
+    ],
+    "form1-2": [
+      { title: "English Form 1 & 2 Notes", id: "17ItMq9lm6OhUdJ7i8XSGpxCmcPfyBsHD", subject: "English", level: "form1-2", source: "ZedTuition" },
+      { title: "Fast-learn Maths Junior", id: "1lB2ZePnvnqdPgd4rjX75CdQBR9XX5_nF", subject: "Mathematics", level: "form1-2", source: "ZedTuition" },
+      { title: "Integrated Science Form 1-2", id: "15Ykhm38JQoOxzIRiUpPRJTSpJck9Ktd6", subject: "Science", level: "form1-2", source: "ZedTuition" },
+      { title: "Literature Form 1", id: "1IoT_TJUwzB_m66ffor7jO5-nCwqpU6Tp", subject: "Literature", level: "form1-2", source: "ZedTuition" },
+      { title: "Social Studies Junior", id: "1TYZKvFQrISYWQSLTUJ2SXOYeuL9fHW", subject: "Social Studies", level: "form1-2", source: "ZedTuition" }
+    ],
+    "primary": [
+      { title: "Fast-learn Maths Grade 5-7", id: "1lB2ZePnvnqdPgd4rjX75CdQBR9XX5_nF", subject: "Mathematics", level: "primary", source: "ZedTuition" },
+      { title: "English Grade 5-7", id: "17ItMq9lm6OhUdJ7i8XSGpxCmcPfyBsHD", subject: "English", level: "primary", source: "ZedTuition" },
+      { title: "Science Primary 5-7", id: "15Ykhm38JQoOxzIRiUpPRJTSpJck9Ktd6", subject: "Science", level: "primary", source: "ZedTuition" },
+      { title: "Social Studies G5-7", id: "1TYZKvFQrISYWQSLTUJ2SXOYeuL9fHW", subject: "Social Studies", level: "primary", source: "ZedTuition" },
+      { title: "Revision Pamphlet", id: "1yiV3SO9AUgDVBhw-j6RS8xr8bnRrEJCI", subject: "Exam Prep", level: "primary", source: "ZedTuition" }
+    ]
+  };
+
+  // External sources (simulating ZedMaterial & other drive docs)
+  const externalDocs = [
+    { title: "ECZ Mathematics Past Papers (2015-2022)", id: "1ABCDefgHijkLmNoPqRsTuVwXyZ", subject: "Mathematics", level: "grade10-12", source: "ZedMaterial", external: true },
+    { title: "English Comprehension & Summary – Grade 12", id: "1ExterNalDocId2", subject: "English", level: "grade10-12", source: "ZedMaterial", external: true },
+    { title: "Science Practical Guide (Form 2)", id: "1ExtFakeIdScience", subject: "Science", level: "form1-2", source: "ZedMaterial", external: true },
+    { title: "Primary Maths Workbooks (Grade 7)", id: "1PrimMathExt", subject: "Mathematics", level: "primary", source: "ZedMaterial", external: true }
+  ];
+
+  let allDocs = [];
+  for (const level in documentsData) {
+    allDocs.push(...documentsData[level].map(d => ({ ...d, type: "doc" })));
+  }
+  externalDocs.forEach(ext => { allDocs.push({ ...ext, type: "doc", external: true }); });
+
+  // ----- VIDEO SOURCES -----
+  let videoResources = [];
+
+  async function fetchVideos() {
+    try {
+      const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://amimollc.github.io/extralearnsearch");
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error();
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const links = doc.querySelectorAll("a");
+      const videos = [];
+      links.forEach(link => {
+        let href = link.href;
+        if (href.includes("youtube.com/watch") || href.includes("youtu.be/")) {
+          let title = link.textContent.trim() || "Video lesson";
+          let fullText = (title + " " + (link.parentElement?.innerText || "")).toLowerCase();
+          let level = "grade10-12";
+          if (fullText.includes("form 1") || fullText.includes("form 2") || fullText.includes("junior") || fullText.includes("grade 8") || fullText.includes("grade 9")) level = "form1-2";
+          else if (fullText.includes("grade 5") || fullText.includes("grade 6") || fullText.includes("grade 7") || fullText.includes("primary")) level = "primary";
+          
+          let videoId = "";
+          if (href.includes("youtu.be/")) videoId = href.split("youtu.be/")[1]?.split(/[?#]/)[0];
+          else if (href.includes("v=")) videoId = href.split("v=")[1]?.split("&")[0];
+          if (videoId && !videos.some(v => v.id === videoId)) {
+            videos.push({
+              title: title.substring(0, 80),
+              id: videoId,
+              level: level,
+              type: "video",
+              thumbnail: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+              embedUrl: `https://www.youtube.com/embed/${videoId}`,
+              source: "extralearnsearch"
+            });
+          }
+        }
+      });
+      if (videos.length === 0) throw new Error();
+      return videos.slice(0, 40);
+    } catch (err) {
+      return [
+        { title: "ECZ Grade 12 Maths Revision", id: "dQw4w9WgXcQ", level: "grade10-12", type: "video", thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg", embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", source: "fallback" },
+        { title: "Physics: Newton's Laws (Gr 10-12)", id: "mGqUYcXqMjU", level: "grade10-12", type: "video", thumbnail: "https://img.youtube.com/vi/mGqUYcXqMjU/mqdefault.jpg", embedUrl: "https://www.youtube.com/embed/mGqUYcXqMjU", source: "fallback" },
+        { title: "Form 1 English - Parts of Speech", id: "o4X5DvVYw3c", level: "form1-2", type: "video", thumbnail: "https://img.youtube.com/vi/o4X5DvVYw3c/mqdefault.jpg", embedUrl: "https://www.youtube.com/embed/o4X5DvVYw3c", source: "fallback" },
+        { title: "Algebra for Form 2", id: "L3LMbpZIKhQ", level: "form1-2", type: "video", thumbnail: "https://img.youtube.com/vi/L3LMbpZIKhQ/mqdefault.jpg", embedUrl: "https://www.youtube.com/embed/L3LMbpZIKhQ", source: "fallback" },
+        { title: "Primary Maths: Fractions Made Easy", id: "CPTqfpVpbzE", level: "primary", type: "video", thumbnail: "https://img.youtube.com/vi/CPTqfpVpbzE/mqdefault.jpg", embedUrl: "https://www.youtube.com/embed/CPTqfpVpbzE", source: "fallback" }
+      ];
+    }
+  }
+
+  let combinedResources = [];
+
+  async function initResources() {
+    const videos = await fetchVideos();
+    videoResources = videos;
+    combinedResources = [...allDocs, ...videoResources];
+    renderResources();
+  }
+
+  function renderResources() {
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    const typeVal = document.getElementById("typeFilter").value;
+    const levelVal = document.getElementById("levelFilter").value;
+
+    let filtered = combinedResources.filter(item => {
+      let matchesSearch = item.title.toLowerCase().includes(searchTerm) || (item.subject && item.subject.toLowerCase().includes(searchTerm));
+      let matchesType = (typeVal === "all") || (typeVal === item.type);
+      let matchesLevel = (levelVal === "all") || (item.level === levelVal);
+      return matchesSearch && matchesType && matchesLevel;
+    });
+
+    const grid = document.getElementById("resourceGrid");
+    const statsSpan = document.getElementById("resultStats");
+    statsSpan.innerHTML = `<i class="fas fa-database"></i> ${filtered.length} resources (${filtered.filter(i=>i.type==="doc").length} docs, ${filtered.filter(i=>i.type==="video").length} videos) — including ZedMaterial external sources`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="no-results"><i class="fas fa-frown"></i> No results. Try a broader search or browse level hubs.</div>`;
+      return;
+    }
+
+    grid.innerHTML = "";
+    filtered.forEach(res => {
+      const card = document.createElement("div");
+      card.className = "resource-card";
+      const levelDisplay = { "grade10-12":"Senior", "form1-2":"Form 1-2", "primary":"Primary" }[res.level] || res.level;
+      let badgeClass = "badge-doc";
+      let badgeIcon = "📄";
+      if (res.type === "video") { badgeClass = "badge-video"; badgeIcon = "🎬"; }
+      else if (res.external) { badgeClass = "badge-external"; badgeIcon = "🌍"; }
+      
+      let thumbnailUrl = "";
+      if (res.type === "doc") {
+        thumbnailUrl = `https://drive.google.com/thumbnail?id=${res.id}&sz=w200`;
+        if (res.external && !res.id.includes("1blK")) thumbnailUrl = "https://placehold.co/400x200/1e1f2e/7c5cff?text=External+Doc";
+      } else {
+        thumbnailUrl = res.thumbnail;
+      }
+
+      card.innerHTML = `
+        <div class="thumbnail-area">
+          <img src="${thumbnailUrl}" alt="thumbnail" onerror="this.src='https://placehold.co/400x200/1a1d2b/7c5cff?text=Preview'">
+          <span class="badge-type ${badgeClass}">${badgeIcon} ${res.type === "doc" ? "Document" : "Video"} ${res.external ? "· External" : ""}</span>
+        </div>
+        <div class="card-content">
+          <h4>${escapeHtml(res.title)}</h4>
+          <div class="card-meta"><span>${res.subject || "Resource"} <i class="fas fa-source"></i> ${res.source || "ZedTuition"}</span><span class="level-tag">${levelDisplay}</span></div>
+        </div>
+      `;
+      card.addEventListener("click", () => {
+        if (res.type === "doc") openDocViewer(res.id);
+        else openVideoModal(res.embedUrl);
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  function openDocViewer(docId) {
+    const modal = document.createElement("div");
+    modal.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.96); z-index:20000; display:flex; align-items:center; justify-content:center; flex-direction:column;";
+    modal.innerHTML = `
+      <div style="background:#0f0f0f; width:90%; max-width:1000px; border-radius:12px; overflow:hidden;">
+        <div style="display:flex; justify-content:flex-end; padding:8px;"><button id="closeModalBtn" style="background:#7c5cff; border:none; padding:6px 14px; border-radius:30px; color:white; cursor:pointer;"><i class="fas fa-times"></i> Close</button></div>
+        <iframe src="https://drive.google.com/file/d/${docId}/preview" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    document.getElementById("closeModalBtn").onclick = () => modal.remove();
+  }
+
+  function openVideoModal(videoUrl) {
+    const modalDiv = document.createElement("div");
+    modalDiv.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:30000; display:flex; align-items:center; justify-content:center; flex-direction:column;";
+    modalDiv.innerHTML = `
+      <div style="background:#000; width:90%; max-width:880px;">
+        <iframe width="100%" height="450" src="${videoUrl}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+        <button style="margin:15px auto; background:#7c5cff; border:none; padding:8px 22px; border-radius:30px; color:white; cursor:pointer; display:block;" onclick="this.closest('#dynamicVideoModal').remove()"><i class="fas fa-times"></i> Close</button>
+      </div>
+    `;
+    modalDiv.id = "dynamicVideoModal";
+    document.body.appendChild(modalDiv);
+    modalDiv.querySelector("button").onclick = () => modalDiv.remove();
+  }
+
+  function escapeHtml(str) { return str?.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])) || ""; }
+
+  // Sidebar & interactions
+  const hamburger = document.getElementById("hamburgerBtn");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlayBlur");
+  function closeSidebar() { sidebar.classList.remove("open"); overlay.classList.remove("active"); }
+  function openSidebar() { sidebar.classList.add("open"); overlay.classList.add("active"); }
+  hamburger.addEventListener("click", openSidebar);
+  document.getElementById("closeSidebarBtn").addEventListener("click", closeSidebar);
+  overlay.addEventListener("click", closeSidebar);
+
+  document.getElementById("searchBtn").addEventListener("click", () => renderResources());
+  document.getElementById("searchInput").addEventListener("keyup", (e) => { if(e.key === "Enter") renderResources(); });
+  document.getElementById("typeFilter").addEventListener("change", () => renderResources());
+  document.getElementById("levelFilter").addEventListener("change", () => renderResources());
+  document.getElementById("resetFiltersBtn").addEventListener("click", () => {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("typeFilter").value = "all";
+    document.getElementById("levelFilter").value = "all";
+    renderResources();
+  });
+
+  initResources();
+</script>
+</body>
+    </html>

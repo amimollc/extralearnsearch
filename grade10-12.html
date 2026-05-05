@@ -1,0 +1,224 @@
+<!-- grade10-12.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 10-12 | Zed Tuition - Documents & Videos</title>
+<style>
+  :root{
+    --bg:#0f0f0f;
+    --card:#161616;
+    --hover:#1f1f1f;
+    --text:#eaeaea;
+    --border:#2a2a2a;
+    --accent:#7c5cff;
+  }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',Roboto,Arial;
+    max-width:1200px;
+    margin:auto;
+    padding:15px;
+  }
+  h1{ text-align:center; font-weight:300; }
+  .nav-home{ text-align:right; margin-bottom:10px; }
+  .nav-home a{ color:var(--accent); text-decoration:none; font-weight:500; }
+  .subject-title{ margin:30px 0 10px; font-size:22px; border-bottom:1px solid var(--border); padding-bottom:6px; }
+  .doc-banner{
+    background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px;
+    display:flex; align-items:center; margin-bottom:10px; position:relative; cursor:pointer;
+  }
+  .doc-banner:hover{ background:var(--hover); }
+  .thumbnail{ width:60px; height:80px; margin-right:15px; background:#222; border-radius:4px; overflow:hidden; }
+  .thumbnail img{ width:100%; height:100%; object-fit:cover; }
+  .doc-title{ flex:1; }
+  .menu-btn{ background:none; border:none; color:#fff; font-size:22px; cursor:pointer; }
+  .menu-box{ position:absolute; right:10px; top:45px; background:#1b1b1b; border:1px solid #333; border-radius:8px; width:200px; display:none; z-index:20; }
+  .menu-box.active{ display:block; }
+  .menu-box button{ width:100%; background:none; border:none; color:#fff; padding:10px; text-align:left; cursor:pointer; }
+  .menu-box button:hover{ background:#333; }
+  #viewer{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:10000; align-items:center; justify-content:center; }
+  #viewer.active{ display:flex; }
+  #viewer iframe{ width:90%; height:90%; border:none; border-radius:8px; }
+  #closeViewer{ position:absolute; top:10px; right:15px; font-size:28px; cursor:pointer; color:#fff; z-index:10001; }
+  .show-more{ padding:10px; text-align:center; background:var(--accent); border-radius:6px; cursor:pointer; margin-bottom:15px; color:#fff; font-weight:500; }
+  .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:9999; }
+  .popup{ background:#121212; padding:20px; border-radius:10px; max-width:850px; width:90%; max-height:80vh; overflow:auto; }
+  .btn-close{ background:#444; color:#fff; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; }
+  .video-section{ margin-top: 50px; }
+  .video-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; margin-top:20px; }
+  .video-card{ background:var(--card); border-radius:12px; overflow:hidden; cursor:pointer; transition:0.2s; border:1px solid #2a2a2a; }
+  .video-card:hover{ transform:scale(1.02); background:var(--hover); }
+  .video-thumb{ width:100%; aspect-ratio:16/9; background:#000; }
+  .video-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .video-card h4{ padding:12px; font-size:1rem; margin:0; }
+  .loading{ text-align:center; padding:30px; color:#aaa; }
+  iframe.video-frame{ width:100%; height:100%; border:none; }
+</style>
+</head>
+<body>
+<div class="nav-home"><a href="index.html">🏠 Back to Home</a></div>
+<h1>📘 Grade 10-12 Documents & Videos</h1>
+<div id="viewer"><div id="closeViewer" onclick="closeViewer()">✕</div><iframe id="viewerFrame"></iframe></div>
+<div id="docList"></div>
+<div id="moreModal" class="overlay"><div class="popup"><h2 id="modalTitle"></h2><div id="modalDocs"></div><button class="btn-close" onclick="closeModal()">Close</button></div></div>
+<div id="shareModal" class="overlay"><div class="popup"><h3>Share Document</h3><div id="shareOptions"></div><button class="btn-close" onclick="closeShare()">Close</button></div></div>
+
+<div class="video-section" id="videos-section">
+  <h2 class="subject-title">🎥 Video Lessons (Grade 10-12)</h2>
+  <div id="videoContainer" class="video-grid"><div class="loading">Loading videos from extralearnsearch...</div></div>
+</div>
+
+<script>
+// ---------- DOCUMENTS DATA (Grade 10-12) ----------
+const subjects = {
+ "Mathematics":[
+  {title:"Progress in Maths Grade 10",id:"1blK7UXeLCWPuNiUzben75qLe3ms1eiAB"},
+  {title:"Maths grade 10-12 P1 mr 6 points",id:"1OkniiwTpHhm7LE5b5JjTVAWDM7wPjYyn"},
+  {title:"Maths grade 10-12 Study Guide",id:"1YX_DNXRSAuqqhlc49EYFzm675BdKZZV1"},
+  {title:"Progress in maths grade 11",id:"1i2JskliFE3GpAHL_LkENowVzdWlQ4M4a"},
+  {title:"Mathematics grade 10-12 Q&A",id:"12GIIPI8kd8TT6vvhDIWq01gmUjb4m0Qr"}
+ ],
+ "English":[
+  {title:"Amplified English grade 10-12",id:"1j18dymh-AuJtBKN8ltPFfBO9y-SRsUXu"},
+  {title:"ECZ English grade 10 to 12",id:"1J-uOuMPrGDPx0W8jnCNQhr2qfY9PkDtS"},
+  {title:"ECZ English grade 12 P1",id:"1LKu4jvBP04BJEWFuqt4OeI9UYNAizwcl"}
+ ],
+ "Biology":[
+  {title:"Biology Zase notes",id:"1InRLQECwgRzj6pnIhYsfF-ANpsTRyo6C"},
+  {title:"Biology grade 10-12",id:"1IP-nHH70Chi96-dWfu5yeBB5HvyFwS1m"},
+  {title:"Biology Notes",id:"1I0FArIPg0hfmZyTTSZNWCO_UzLxYjCIy"}
+ ],
+ "Physics":[
+  {title:"Physics Question and answers",id:"1I_ZYCO1DwDZL5Sqx6xWIwyo6fQMjnIMO"},
+  {title:"Physics syllabus",id:"1ESmSyYzDHLyEIQRl0hPHzO8h1A57jJz5"},
+  {title:"Physics Notes",id:"1IwzRCG-B-_Oh1uqjWYNjnvkwa4STyZsD"}
+ ],
+ "Chemistry":[
+  {title:"Chemistry grade 10-12",id:"1b0LqXFk1QOnQZPvRR2cS0II7gDcDdRWC"},
+  {title:"Chemistry amplified notes",id:"1Ie1XJogzpobaR56C29SQ6Zgggat5Vduh"}
+ ],
+ "Civic":[
+  {title:"Civic grade 10-12",id:"1yHrlBhbrX5OENW5PFoq-a3avSdRlVXA8"},
+  {title:"Civic pamphlet",id:"1JC-ojT72GQmLm_uJjoXx8gVmuj9arqRg"}
+ ],
+ "Geography":[
+  {title:"Geography notes",id:"1J-dsIsDtBVk7ii6sn7TxHxtDgbswCrZO"}
+ ],
+ "History":[ {title:"History P1",id:"1Ik5ShFeS1CAeMA1QnKIn27eDOW8XeLco"} ],
+ "Account":[ {title:"Account P1",id:"1Iaz8GLmQiCffCWSJWr2rnyIpvc0ime8u"} ],
+ "Literature in English":[
+  {title:"Literature Doc 1",id:"1LKu4jvBP04BJEWFuqt4OeI9UYNAizwcl"},
+  {title:"Literature Doc 2",id:"1Iy44N0OycGsUsVARci4hSdSByM-40-Kn"}
+ ],
+ "Religious Education":[ {title:"RE notes",id:"1_gjNN2ljXAjw1EvJy0vY0DZ52yYvc-11"} ]
+};
+
+const listDiv = document.getElementById("docList");
+function buildDocList(){
+  Object.keys(subjects).forEach(sub=>{
+    const titleDiv = document.createElement("div");
+    titleDiv.className="subject-title"; titleDiv.textContent=sub;
+    listDiv.appendChild(titleDiv);
+    const docs = subjects[sub];
+    docs.slice(0,2).forEach(d=>listDiv.appendChild(createDocCard(d)));
+    if(docs.length>2){
+      const moreBtn = document.createElement("div");
+      moreBtn.className="show-more"; moreBtn.textContent="Show more";
+      moreBtn.onclick = ()=>openModal(sub, docs);
+      listDiv.appendChild(moreBtn);
+    }
+  });
+}
+function createDocCard(doc){
+  const b = document.createElement("div"); b.className="doc-banner";
+  b.innerHTML = `<div class="thumbnail"><img src="https://drive.google.com/thumbnail?id=${doc.id}"></div><div class="doc-title">${doc.title}</div><button class="menu-btn">⋮</button><div class="menu-box"><button onclick="event.stopPropagation();requestView('${doc.id}')">👁 View</button><button onclick="event.stopPropagation();shareDoc('${doc.id}')">🔗 Share</button></div>`;
+  b.addEventListener("click", (e) => { if(!e.target.closest(".menu-btn")) requestView(doc.id); });
+  b.querySelector(".menu-btn").onclick = e => { e.stopPropagation(); closeMenus(); b.querySelector(".menu-box").classList.toggle("active"); };
+  return b;
+}
+function closeMenus(){ document.querySelectorAll(".menu-box").forEach(m=>m.classList.remove("active")); }
+document.addEventListener("click",closeMenus);
+function requestView(id){ openDoc(id); }
+function openDoc(id){ document.getElementById("viewer").classList.add("active"); document.getElementById("viewerFrame").src=`https://drive.google.com/file/d/${id}/preview`; }
+function closeViewer(){ document.getElementById("viewer").classList.remove("active"); document.getElementById("viewerFrame").src=""; }
+function shareDoc(id){
+  const link = `${location.origin}${location.pathname}?doc=${id}`;
+  const opts = document.getElementById("shareOptions");
+  opts.innerHTML = `<button onclick="window.open('https://wa.me/?text=${encodeURIComponent(link)}')">📱 WhatsApp</button><button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}')">📘 Facebook</button><button onclick="navigator.clipboard.writeText('${link}')">🔗 Copy Link</button>`;
+  document.getElementById("shareModal").style.display="flex";
+}
+function closeShare(){ document.getElementById("shareModal").style.display="none"; }
+function openModal(title,docs){ document.getElementById("modalTitle").textContent=title; const box=document.getElementById("modalDocs"); box.innerHTML=""; docs.forEach(d=>box.appendChild(createDocCard(d))); document.getElementById("moreModal").style.display="flex"; }
+function closeModal(){ document.getElementById("moreModal").style.display="none"; }
+buildDocList();
+
+// ---------- VIDEO EXTRACTION (Grade 10-12) ----------
+async function fetchVideosForLevel(levelKeywords, fallbackVideos){
+  const videoContainer = document.getElementById("videoContainer");
+  videoContainer.innerHTML = '<div class="loading">🔍 Fetching lessons from extralearnsearch...</div>';
+  try {
+    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://amimollc.github.io/extralearnsearch");
+    const response = await fetch(proxyUrl);
+    if(!response.ok) throw new Error("Network error");
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const links = doc.querySelectorAll("a");
+    const videos = [];
+    links.forEach(link => {
+      let href = link.href;
+      if(href.includes("youtube.com/watch") || href.includes("youtu.be/")){
+        let title = link.textContent.trim() || link.innerText || "Video lesson";
+        let fullText = (link.parentElement?.innerText || title + " " + link.href).toLowerCase();
+        let matched = levelKeywords.some(kw => fullText.includes(kw));
+        if(matched || title.toLowerCase().includes("grade 10") || title.toLowerCase().includes("grade 11") || title.toLowerCase().includes("grade 12")){
+          let videoId = "";
+          if(href.includes("youtu.be/")) videoId = href.split("youtu.be/")[1]?.split(/[?#]/)[0];
+          else if(href.includes("watch?v=")) videoId = href.split("v=")[1]?.split("&")[0];
+          if(videoId && !videos.some(v=>v.id===videoId)) videos.push({ title: title.substring(0,70), id: videoId, url: `https://www.youtube.com/embed/${videoId}` });
+        }
+      }
+    });
+    if(videos.length === 0) throw new Error("No videos matched");
+    displayVideos(videos.slice(0,12));
+  } catch(err){
+    console.warn("Extraction error, using fallback data:", err);
+    displayVideos(fallbackVideos);
+  }
+}
+function displayVideos(videos){
+  const container = document.getElementById("videoContainer");
+  if(!videos.length){ container.innerHTML = '<div class="loading">⚠️ No videos found for this level.</div>'; return; }
+  container.innerHTML = "";
+  videos.forEach(v => {
+    const card = document.createElement("div");
+    card.className = "video-card";
+    card.innerHTML = `<div class="video-thumb"><img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="thumbnail" loading="lazy"></div><h4>${v.title}</h4>`;
+    card.onclick = () => { openVideoModal(v.url); };
+    container.appendChild(card);
+  });
+}
+function openVideoModal(videoSrc){
+  const existing = document.getElementById("videoModal");
+  if(existing) existing.remove();
+  const modal = document.createElement("div");
+  modal.id = "videoModal";
+  modal.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20000; display:flex; align-items:center; justify-content:center; flex-direction:column;";
+  modal.innerHTML = `<div style="background:#000; width:90%; max-width:900px;"><iframe width="100%" height="450" src="${videoSrc}?autoplay=1" frameborder="0" allowfullscreen></iframe><button style="margin-top:15px; background:#7c5cff; border:none; padding:8px 20px; border-radius:30px; color:white; cursor:pointer;" onclick="this.closest('#videoModal').remove()">Close</button></div>`;
+  document.body.appendChild(modal);
+}
+const fallbackSenior = [
+  { title: "ECZ Grade 12 Mathematics Revision", id: "dQw4w9WgXcQ", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+  { title: "Physics - Work, Energy & Power (Grade 10-12)", id: "mGqUYcXqMjU", url: "https://www.youtube.com/embed/mGqUYcXqMjU" },
+  { title: "English Grammar for ECZ", id: "n_sC8mRWmb0", url: "https://www.youtube.com/embed/n_sC8mRWmb0" },
+  { title: "Biology: Human Transport System", id: "HGz7x5QE4v8", url: "https://www.youtube.com/embed/HGz7x5QE4v8" },
+  { title: "Chemistry - Chemical Bonding", id: "QqjcCvzWwww", url: "https://www.youtube.com/embed/QqjcCvzWwww" },
+  { title: "Civic Education - Constitution", id: "XH9ZoK8q5Ik", url: "https://www.youtube.com/embed/XH9ZoK8q5Ik" }
+];
+fetchVideosForLevel(["grade 10","grade 11","grade 12","senior secondary","ecz grade","10-12"], fallbackSenior);
+</script>
+</body>
+  </html>
